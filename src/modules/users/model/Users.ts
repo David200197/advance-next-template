@@ -1,13 +1,13 @@
 import { z } from "zod";
 import { User, userSchema } from "./User";
 import { validateModelSchema } from "@/modules/core/utils/validate-model-schema";
-import { Collection } from "@/modules/core/models/Collection";
+import { Collections } from "@/modules/core/models/Collection";
 
 const usersSchema = z.array(userSchema);
 
 type UsersSchema = z.infer<typeof usersSchema>;
 
-export class Users extends Collection<User> {
+export class Users extends Collections<User> {
   private constructor(...users: User[]) {
     super(...users);
   }
