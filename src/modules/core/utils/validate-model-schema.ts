@@ -2,7 +2,7 @@ import { z, ZodRawShape } from "zod";
 
 export const validateModelSchema = <T>(
   modelName: string,
-  schema: z.ZodObject<ZodRawShape>,
+  schema: z.ZodObject<ZodRawShape> | z.ZodArray<z.ZodObject<ZodRawShape>>,
   data: T
 ) => {
   const result = schema.safeParse(data);

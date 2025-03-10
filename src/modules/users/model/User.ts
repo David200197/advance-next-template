@@ -1,7 +1,7 @@
 import { validateModelSchema } from "@/modules/core/utils/validate-model-schema";
 import { z } from "zod";
 
-const userSchema = z.object({
+export const userSchema = z.object({
   id: z.string(),
   name: z.string(),
   email: z.string().email(),
