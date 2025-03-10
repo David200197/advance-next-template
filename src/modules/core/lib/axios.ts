@@ -1,5 +1,12 @@
 import axios from "axios";
 import toast from "react-hot-toast";
+import { ServerError } from "../exceptions/server-error";
+import { NotFoundError } from "../exceptions/not-found-error";
+import { UnauthorizedError } from "../exceptions/unathorized-error";
+import { ForbiddenError } from "../exceptions/forbidden-error";
+import { ApiError } from "../exceptions/api-error";
+import { NetworkError } from "../exceptions/network-error";
+import { UnknownError } from "../exceptions/uknown-error";
 
 export const apiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL ?? "https://api.example.com",
@@ -36,22 +43,34 @@ apiClient.interceptors.response.use(
         403: "Access denied. You do not have permission.",
       };
 
-      toast.error(
+      const errorMessage =
         errorMessages[status] ||
-          response.data?.message ||
-          "Unknown server error."
-      );
-      throw error;
+        response.data?.message ||
+        "Unknown server error.";
+
+      toast.error(errorMessage);
+      switch (status) {
+        case 500:
+          throw new ServerError(errorMessage, response.data);
+        case 404:
+          throw new NotFoundError(errorMessage, response.data);
+        case 401:
+          throw new UnauthorizedError(errorMessage, response.data);
+        case 403:
+          throw new ForbiddenError(errorMessage, response.data);
+        default:
+          throw new ApiError(errorMessage, status, response.data);
+      }
     }
 
     if (request) {
       toast.error(
         "Cannot connect to the server. Check your internet connection."
       );
-      throw error;
+      throw new NetworkError();
     }
 
     toast.error(message || "An unexpected error occurred.");
-    throw error;
+    throw new UnknownError(message);
   }
 );
