@@ -13,7 +13,7 @@ export class Users extends Collection<User> {
   }
 
   static create(users: UsersSchema) {
-    const currentUsers = validateModelSchema("Users", usersSchema, users);
+    const currentUsers = validateModelSchema(Users.name, usersSchema, users);
     return new Users(...currentUsers.map((user) => User.create(user)));
   }
 }
