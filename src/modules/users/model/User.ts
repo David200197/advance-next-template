@@ -1,4 +1,4 @@
-import { validateModelSchema } from "@/modules/core/utils/validate-model-schema";
+import { validateSchema } from "@/modules/core/utils/validate-model-schema";
 import { z } from "zod";
 
 export const userSchema = z.object({
@@ -19,7 +19,7 @@ export class User implements UserSchema {
   }
 
   static create(data: UserSchema) {
-    return new User(validateModelSchema(User.name, userSchema, data));
+    return new User(validateSchema(User.name, userSchema, data));
   }
 
   getDisplayName() {

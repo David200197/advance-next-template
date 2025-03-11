@@ -7,9 +7,10 @@ import { ForbiddenError } from "../exceptions/forbidden-error";
 import { ApiError } from "../exceptions/api-error";
 import { NetworkError } from "../exceptions/network-error";
 import { UnknownError } from "../exceptions/uknown-error";
+import { env } from "./env";
 
 export const apiClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL ?? "https://api.example.com",
+  baseURL: env.NEXT_PUBLIC_API_URL ?? "https://api.example.com",
   headers: { "Content-Type": "application/json" },
 });
 
