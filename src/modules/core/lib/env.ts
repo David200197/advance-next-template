@@ -5,10 +5,6 @@ const envSchema = z.object({
   NEXT_PUBLIC_API_URL: z.string().url(),
 });
 
-type Env = z.infer<typeof envSchema>;
-
-export const env = validateSchema(
-  "Env",
-  envSchema,
-  process.env as unknown as Env
-);
+export const env = validateSchema("Env", envSchema, {
+  NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+});

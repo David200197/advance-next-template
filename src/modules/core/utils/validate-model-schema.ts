@@ -7,7 +7,7 @@ export const validateSchema = <T>(
 ) => {
   const result = schema.safeParse(data);
   if (!result.success) {
-    throw new Error(
+    throw new TypeError(
       `Validation failed in ${name}:\n` +
         result.error.errors.map((e) => `- ${e.path}: ${e.message}`).join("\n")
     );
