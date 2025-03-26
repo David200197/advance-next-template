@@ -1,16 +1,27 @@
-import { apiClient } from "@/modules/core/lib/axios";
-import { User } from "../model/User";
-import { Users } from "../model/Users";
-import { fn } from "@/modules/core/interceptors/global-error-handler";
+import { User, UserSchema } from "../model/User";
+import { Users, UsersSchema } from "../model/Users";
+import { inject, injectable } from "inversify";
+import { HTTP_CLIENT } from "@/modules/core/constants/client-http-constants";
+import type { HttpClient } from "@/modules/core/models/HttpClient";
 
-const BASE_URL = "/user";
+@injectable()
+export class UserService {
+  private readonly BASE_URL = "/user";
 
-export const getUser = fn(async (id: string) => {
-  const response = await apiClient.get(`${BASE_URL}/${id}`);
-  return User.create(response.data);
-});
+  constructor(
+    @inject(HTTP_CLIENT)
+    private readonly httpClient: HttpClient
+  ) {}
 
-export const getUsers = fn(async () => {
-  const response = await apiClient.get(BASE_URL);
-  return Users.create(response.data);
-});
+  getUser = async (id: string) => {
+    const user = await this.httpClient.get<UserSchema>(
+      `${this.BASE_URL}/${id}`
+    );
+    return User.create(user);
+  };
+
+  getUsers = async () => {
+    const users = await this.httpClient.get<UsersSchema>(this.BASE_URL);
+    return Users.create(users);
+  };
+}

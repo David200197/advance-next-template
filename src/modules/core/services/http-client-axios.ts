@@ -1,4 +1,7 @@
+import { injectable } from "inversify";
+import { HttpClient } from "../models/HttpClient";
 import axios from "axios";
+import { env } from "../lib/env";
 import toast from "react-hot-toast";
 import { ServerError } from "../exceptions/server-error";
 import { NotFoundError } from "../exceptions/not-found-error";
@@ -7,7 +10,6 @@ import { ForbiddenError } from "../exceptions/forbidden-error";
 import { ApiError } from "../exceptions/api-error";
 import { NetworkError } from "../exceptions/network-error";
 import { UnknownError } from "../exceptions/uknown-error";
-import { env } from "./env";
 
 export const apiClient = axios.create({
   baseURL: env.NEXT_PUBLIC_API_URL,
@@ -75,3 +77,27 @@ apiClient.interceptors.response.use(
     throw new UnknownError(message);
   }
 );
+
+@injectable()
+export class HttpAxiosClient implements HttpClient {
+  async get<Response>(path: string): Promise<Response> {
+    const response = await apiClient.get(path);
+    return response.data;
+  }
+  async post<Body, Response>(path: string, body: Body): Promise<Response> {
+    const response = await apiClient.post(path, { body });
+    return response.data;
+  }
+  async put<Body, Response>(path: string, body: Body): Promise<Response> {
+    const response = await apiClient.put(path, { body });
+    return response.data;
+  }
+  async patch<Body, Response>(path: string, body: Body): Promise<Response> {
+    const response = await apiClient.patch(path, { body });
+    return response.data;
+  }
+  async delete<Response>(path: string): Promise<Response> {
+    const response = await apiClient.delete(path);
+    return response.data;
+  }
+}

@@ -5,7 +5,7 @@ import { Collections } from "@/modules/core/models/Collection";
 
 const usersSchema = z.array(userSchema);
 
-type UsersSchema = z.infer<typeof usersSchema>;
+export type UsersSchema = z.infer<typeof usersSchema>;
 
 export class Users extends Collections<User> {
   private constructor(...users: User[]) {

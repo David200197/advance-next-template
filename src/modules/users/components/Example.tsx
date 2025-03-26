@@ -1,18 +1,23 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import { User } from "../model/User";
-import { fn } from "@/modules/core/interceptors/global-error-handler";
-import { getUser } from "../services/user-service";
+import { UserService } from "../services/user-service";
+import { useContainer } from "@/modules/core/contexts/ContainerContext";
 
 export const Example = () => {
+  const container = useContainer();
+
   const { isLoading, error, data } = useQuery<User, Error>({
     queryKey: ["user"],
-    queryFn: () => getUser(""),
+    queryFn: () => {
+      const userService = container.get(UserService);
+      return userService.getUser("");
+    },
   });
 
-  const onClick = fn(() => {
+  const onClick = () => {
     throw new Error("error click");
-  });
+  };
 
   if (isLoading) return "Loading...";
 

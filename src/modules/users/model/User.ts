@@ -7,7 +7,7 @@ export const userSchema = z.object({
   email: z.string().email(),
 });
 
-type UserSchema = z.infer<typeof userSchema>;
+export type UserSchema = z.infer<typeof userSchema>;
 
 export class User implements UserSchema {
   id!: string;
