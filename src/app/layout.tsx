@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import { QueryClientCustomProvider } from "@/modules/core/providers/QueryClientCustomProvider";
-import { ContainerProvider } from "@/modules/core/contexts/ContainerContext";
+import { DiProvider } from "@/modules/core/contexts/DiContext";
 import { ErrorBoundaryProvider } from "@/modules/core/providers/ErrorBoundaryProvider";
 import { composeProviders } from "@/modules/core/utils/compose-providers";
 
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 
 const Provider = composeProviders([
   ErrorBoundaryProvider,
-  ContainerProvider,
+  DiProvider,
   QueryClientCustomProvider,
 ]);
 
