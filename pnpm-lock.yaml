@@ -11,6 +11,12 @@ importers:
       '@hookform/resolvers':
         specifier: ^4.1.3
         version: 4.1.3(react-hook-form@7.54.2(react@19.0.0))
+      '@radix-ui/react-label':
+        specifier: ^2.1.2
+        version: 2.1.2(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      '@radix-ui/react-slot':
+        specifier: ^1.1.2
+        version: 1.1.2(@types/react@19.0.10)(react@19.0.0)
       '@tanstack/react-query':
         specifier: '4'
         version: 4.36.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -87,6 +93,12 @@ importers:
       '@storybook/test':
         specifier: 8.6.3
         version: 8.6.3(storybook@8.6.3)
+      '@suites/di.inversify':
+        specifier: ^3.0.1
+        version: 3.0.1(inversify@7.2.0(reflect-metadata@0.2.2))(reflect-metadata@0.2.2)
+      '@suites/unit':
+        specifier: ^3.0.1
+        version: 3.0.1
       '@tailwindcss/postcss':
         specifier: ^4
         version: 4.0.9
@@ -1212,6 +1224,50 @@ packages:
       webpack-plugin-serve:
         optional: true
 
+  '@radix-ui/react-compose-refs@1.1.1':
+    resolution: {integrity: sha512-Y9VzoRDSJtgFMUCoiZBDVo084VQ5hfpXxVE+NgkdNsjiDBByiImMZKKhxMwCbdHvhlENG6a833CbFkOQvTricw==}
+    peerDependencies:
+      '@types/react': '*'
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+
+  '@radix-ui/react-label@2.1.2':
+    resolution: {integrity: sha512-zo1uGMTaNlHehDyFQcDZXRJhUPDuukcnHz0/jnrup0JA6qL+AFpAnty+7VKa9esuU5xTblAZzTGYJKSKaBxBhw==}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+
+  '@radix-ui/react-primitive@2.0.2':
+    resolution: {integrity: sha512-Ec/0d38EIuvDF+GZjcMU/Ze6MxntVJYO/fRlCPhCaVUyPY9WTalHJw54tp9sXeJo3tlShWpy41vQRgLRGOuz+w==}
+    peerDependencies:
+      '@types/react': '*'
+      '@types/react-dom': '*'
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+      react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      '@types/react-dom':
+        optional: true
+
+  '@radix-ui/react-slot@1.1.2':
+    resolution: {integrity: sha512-YAKxaiGsSQJ38VzKH86/BPRC4rh+b1Jpa+JneA5LRE7skmLPNAyeG8kPJj/oo4STLvlrs8vkf/iYyc3A5stYCQ==}
+    peerDependencies:
+      '@types/react': '*'
+      react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+
   '@rollup/rollup-android-arm-eabi@4.34.9':
     resolution: {integrity: sha512-qZdlImWXur0CFakn2BJ2znJOdqYZKiedEPEVNTBrpfPjc/YuTGcaYZcdmNFTkUj3DU0ZM/AElcM8Ybww3xVLzA==}
     cpu: [arm]
@@ -1513,6 +1569,32 @@ packages:
     resolution: {integrity: sha512-sDcWnnko73KOCIc9stQyec9KvTmGOuMswqeKtWh0ha/wsgYB6G2/2j1xOheFmWKPitOsbwgvqtjCP7bRE68uIA==}
     peerDependencies:
       storybook: ^8.2.0 || ^8.3.0-0 || ^8.4.0-0 || ^8.5.0-0 || ^8.6.0-0
+
+  '@suites/core.unit@3.0.1':
+    resolution: {integrity: sha512-X5xNg5EK1zAKXo4WS1fyBcViyvWvUWCEaA1fv/3ow5mD9AkKnIQajqm9pLAkUl/BM73baLQv9biLnmEHje1ghA==}
+    engines: {node: ^16.10.0 || ^18.12.0 || >=20.0.0}
+
+  '@suites/di.inversify@3.0.1':
+    resolution: {integrity: sha512-CFE0TfBRQM741hc+MD+LqLy9YuftyNwVgzohiO2tzRPHYenN979SljboZ0nj+HFOdXg3eUJBUUOFyqKV1RKdhA==}
+    engines: {node: ^16.10.0 || ^18.12.0 || >=20.0.0}
+    peerDependencies:
+      inversify: '>= 6.0'
+      reflect-metadata: <1.0.0
+
+  '@suites/types.common@3.0.0':
+    resolution: {integrity: sha512-+kCWmVAyEI01P4d/t3LbrOCq1xXQlh3SsPstn1uBuC/MDMW/pENHkU5xVC9G8VOW/pkXh53KXwbHIxpJImp4Zw==}
+    engines: {node: ^16.10.0 || ^18.12.0 || >=20.0.0}
+
+  '@suites/types.di@3.0.0':
+    resolution: {integrity: sha512-RzvgfTsjg3KrJ3SRbo9J84g5mRfkMZMzinLTjAQO+yCBBz+YMhbwaUXDBX70RcFGiAHjTNPg0jWjis3FHPH8Dg==}
+    engines: {node: ^16.10.0 || ^18.12.0 || >=20.0.0}
+
+  '@suites/types.doubles@3.0.0':
+    resolution: {integrity: sha512-B5sHH98qU7Fq+ozA42J3LLv846xRJn2ndx1xfLr0oaKxEG6Xud/vmdJpH65F/2P7DNMJkxWo/VDIqXrN4UDcvg==}
+
+  '@suites/unit@3.0.1':
+    resolution: {integrity: sha512-28RLtgxG8NH6zcBvfiMGqbToWNTs2WnTPa9GWQ2k1laXueGILDTTRjQrsApIAlbtRF5lGuGPynRFEMBAL+90Mw==}
+    engines: {node: ^16.10.0 || ^18.12.0 || >=20.0.0}
 
   '@swc/counter@0.1.3':
     resolution: {integrity: sha512-e2BR4lsJkkRlKZ/qCHPw9ZaSxc0MVUd7gtbtaB7aMvHeJVYe8sOB8DBZkP2DtISHGSku9sCK6T6cnY0CtXrOCQ==}
@@ -3347,6 +3429,10 @@ packages:
 
   lodash.debounce@4.0.8:
     resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
+
+  lodash.isequal@4.5.0:
+    resolution: {integrity: sha512-pDo3lu8Jhfjqls6GkMgpahsF9kCyayhgykjyLMNFTKWrpVdAQtYyB4muAMWozBB4ig/dtWAmsMxLEI8wuz+DYQ==}
+    deprecated: This package is deprecated. Use require('node:util').isDeepStrictEqual instead.
 
   lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
@@ -5790,6 +5876,37 @@ snapshots:
       type-fest: 2.19.0
       webpack-hot-middleware: 2.26.1
 
+  '@radix-ui/react-compose-refs@1.1.1(@types/react@19.0.10)(react@19.0.0)':
+    dependencies:
+      react: 19.0.0
+    optionalDependencies:
+      '@types/react': 19.0.10
+
+  '@radix-ui/react-label@2.1.2(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
+    dependencies:
+      '@radix-ui/react-primitive': 2.0.2(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
+    optionalDependencies:
+      '@types/react': 19.0.10
+      '@types/react-dom': 19.0.4(@types/react@19.0.10)
+
+  '@radix-ui/react-primitive@2.0.2(@types/react-dom@19.0.4(@types/react@19.0.10))(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
+    dependencies:
+      '@radix-ui/react-slot': 1.1.2(@types/react@19.0.10)(react@19.0.0)
+      react: 19.0.0
+      react-dom: 19.0.0(react@19.0.0)
+    optionalDependencies:
+      '@types/react': 19.0.10
+      '@types/react-dom': 19.0.4(@types/react@19.0.10)
+
+  '@radix-ui/react-slot@1.1.2(@types/react@19.0.10)(react@19.0.0)':
+    dependencies:
+      '@radix-ui/react-compose-refs': 1.1.1(@types/react@19.0.10)(react@19.0.0)
+      react: 19.0.0
+    optionalDependencies:
+      '@types/react': 19.0.10
+
   '@rollup/rollup-android-arm-eabi@4.34.9':
     optional: true
 
@@ -6187,6 +6304,35 @@ snapshots:
   '@storybook/theming@8.6.3(storybook@8.6.3)':
     dependencies:
       storybook: 8.6.3
+
+  '@suites/core.unit@3.0.1':
+    dependencies:
+      '@suites/types.common': 3.0.0
+      '@suites/types.di': 3.0.0
+      lodash.isequal: 4.5.0
+
+  '@suites/di.inversify@3.0.1(inversify@7.2.0(reflect-metadata@0.2.2))(reflect-metadata@0.2.2)':
+    dependencies:
+      '@suites/types.common': 3.0.0
+      '@suites/types.di': 3.0.0
+      inversify: 7.2.0(reflect-metadata@0.2.2)
+      lodash.isequal: 4.5.0
+      reflect-metadata: 0.2.2
+
+  '@suites/types.common@3.0.0': {}
+
+  '@suites/types.di@3.0.0':
+    dependencies:
+      '@suites/types.common': 3.0.0
+
+  '@suites/types.doubles@3.0.0': {}
+
+  '@suites/unit@3.0.1':
+    dependencies:
+      '@suites/core.unit': 3.0.1
+      '@suites/types.common': 3.0.0
+      '@suites/types.di': 3.0.0
+      '@suites/types.doubles': 3.0.0
 
   '@swc/counter@0.1.3': {}
 
@@ -8347,6 +8493,8 @@ snapshots:
       p-locate: 6.0.0
 
   lodash.debounce@4.0.8: {}
+
+  lodash.isequal@4.5.0: {}
 
   lodash.merge@4.6.2: {}
 

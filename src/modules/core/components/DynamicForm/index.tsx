@@ -2,13 +2,25 @@ import { DefaultValues, useForm } from "react-hook-form";
 import { ZodObject, infer as zInfer } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../../ui/form";
+import { Input } from "../../ui/input";
+import { Button } from "../../ui/button";
 
 export type DynamicFormProps<T extends ZodObject<any>> = {
   schema: T;
   onSubmit: (data: zInfer<T>) => void;
   defaultValues?: Partial<zInfer<T>>;
   updatedValues?: Partial<zInfer<T>>;
-  fieldTypes?: Record<keyof zInfer<T>, FieldType>;
+  fields?: Partial<Record<keyof zInfer<T>, FieldType>>;
+  onBack?: () => void;
 };
 
 export const DynamicForm = <T extends ZodObject<any>>({
@@ -16,14 +28,10 @@ export const DynamicForm = <T extends ZodObject<any>>({
   onSubmit,
   defaultValues = {},
   updatedValues,
-  //fieldTypes = {},
+  onBack,
+  fields,
 }: DynamicFormProps<T>) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-  } = useForm({
+  const form = useForm({
     resolver: zodResolver(schema),
     defaultValues: defaultValues as DefaultValues<zInfer<T>>,
   });
@@ -32,25 +40,51 @@ export const DynamicForm = <T extends ZodObject<any>>({
     if (!updatedValues) return;
     for (const key in updatedValues) {
       if (updatedValues[key]) {
-        setValue(key, updatedValues[key]);
+        form.setValue(key, updatedValues[key]);
       }
     }
-  }, [updatedValues, setValue]);
+  }, [updatedValues, form.setValue]);
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      {Object.keys(schema.shape).map((key) => (
-        <div key={key}>
-          <label>{key}</label>
-          <input {...register(key)} defaultValue={defaultValues[key]} />
-          {errors[key] && (
-            <p style={{ color: "red" }}>
-              {String(errors[key as keyof zInfer<T>]?.message || "")}
-            </p>
-          )}
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 ">
+        <div className="grid grid-cols md:grid-cols-3 gap-4">
+          {Object.keys(schema.shape).map((key) => (
+            <FormField
+              key={key}
+              control={form.control}
+              name={key}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{key}</FormLabel>
+                  <FormControl>
+                    <Input placeholder="shadcn" {...field} />
+                  </FormControl>
+                  <div className="relative">
+                    <div className="flex flex-col absolute">
+                      {fields?.[key]?.description && (
+                        <FormDescription>
+                          {fields[key].description}
+                        </FormDescription>
+                      )}
+                      <FormMessage />
+                    </div>
+                  </div>
+                </FormItem>
+              )}
+            />
+          ))}
         </div>
-      ))}
-      <button type="submit">Enviar</button>
-    </form>
+
+        <div className="flex justify-between">
+          <Button type="button" variant={"secondary"} onClick={onBack}>
+            Cancel
+          </Button>
+          <Button type="submit" variant={"default"}>
+            Send
+          </Button>
+        </div>
+      </form>
+    </Form>
   );
 };

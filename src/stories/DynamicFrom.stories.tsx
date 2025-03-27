@@ -11,6 +11,7 @@ const schema = z.object({
   name: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
   email: z.string().email("Correo inválido"),
   age: z.number().min(18, "Debes tener al menos 18 años"),
+  example: z.number().min(18, "Debes tener al menos 18 años"),
 });
 
 const defaultValues = {
@@ -39,4 +40,7 @@ Default.args = {
   schema,
   onSubmit: (data: FormValues) => console.log("Formulario enviado:", data),
   defaultValues,
+  fields: {
+    name: { type: "input", description: "*this is a example" },
+  },
 };
