@@ -8,9 +8,10 @@ type Field<Type extends string, Object extends object = {}> = {
   isLoading?: boolean;
   description?: string;
   className?: string;
+  placeholder?: string;
 } & Object;
 
-type FieldType =
+export type FieldType =
   | Field<"input">
   | Field<"inputNumber">
   | Field<"dropdown", { options: Option[] }>

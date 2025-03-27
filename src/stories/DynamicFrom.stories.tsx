@@ -41,6 +41,14 @@ Default.args = {
   onSubmit: (data: FormValues) => console.log("Formulario enviado:", data),
   defaultValues,
   fields: {
-    name: { type: "input", description: "*this is a example" },
+    name: {
+      type: "input",
+      description: "*This is a example",
+      placeholder: "insert your name...",
+    },
+    email: {
+      type: "input",
+      placeholder: "Insert your email...",
+    },
   },
 };

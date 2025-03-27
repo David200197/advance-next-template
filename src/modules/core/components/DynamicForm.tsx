@@ -10,9 +10,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../../ui/form";
-import { Input } from "../../ui/input";
-import { Button } from "../../ui/button";
+} from "../ui/form";
+import { Button } from "../ui/button";
+import { DynamicField } from "./DynamicField";
+import { FieldType } from "../types/FieldType";
 
 export type DynamicFormProps<T extends ZodObject<any>> = {
   schema: T;
@@ -54,24 +55,28 @@ export const DynamicForm = <T extends ZodObject<any>>({
               key={key}
               control={form.control}
               name={key}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{key}</FormLabel>
-                  <FormControl>
-                    <Input placeholder="shadcn" {...field} />
-                  </FormControl>
-                  <div className="relative">
-                    <div className="flex flex-col absolute">
-                      {fields?.[key]?.description && (
-                        <FormDescription>
-                          {fields[key].description}
-                        </FormDescription>
-                      )}
-                      <FormMessage />
+              render={({ field: fieldControl }) => {
+                const field = fields?.[key];
+
+                return (
+                  <FormItem className={field?.className ?? "mb-4"}>
+                    <FormLabel>{key}</FormLabel>
+                    <FormControl>
+                      <DynamicField fieldControl={fieldControl} field={field} />
+                    </FormControl>
+                    <div className="relative">
+                      <div className="flex flex-col absolute -top-1">
+                        {field?.description && (
+                          <FormDescription className="text-xs">
+                            {field.description}
+                          </FormDescription>
+                        )}
+                        <FormMessage className="text-xs" />
+                      </div>
                     </div>
-                  </div>
-                </FormItem>
-              )}
+                  </FormItem>
+                );
+              }}
             />
           ))}
         </div>
