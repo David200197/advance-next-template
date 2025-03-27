@@ -1,25 +1,20 @@
 import { ReactNode } from "react";
-import { ControllerRenderProps } from "react-hook-form";
-import { infer as zInfer, ZodObject } from "zod";
-import { FieldType } from "../types/FieldType";
+import { ZodObject } from "zod";
+import { FieldControl, Field } from "../types/form-type";
 import { Input } from "../ui/input";
-
-type FieldControl = ControllerRenderProps<
-  {
-    [x: string]: any;
-  },
-  string
->;
+import { Skeleton } from "../ui/skeleton";
 
 type Props<T extends ZodObject<any>> = {
   fieldControl: FieldControl;
-  field?: Record<keyof zInfer<T>, FieldType>[string];
+  field?: Field;
+  loading?: boolean;
 };
 export const DynamicField = <T extends ZodObject<any>>({
   fieldControl,
   field,
+  loading,
 }: Props<T>) => {
-  if (field?.isLoading) return <div>Loading...</div>;
+  if (loading) return <Skeleton className="w-full h-[37px] rounded-md" />;
 
   const input = () => (
     <Input {...fieldControl} placeholder={field?.placeholder} />
@@ -37,7 +32,7 @@ export const DynamicField = <T extends ZodObject<any>>({
     <Input {...fieldControl} placeholder={field?.placeholder} />
   );
 
-  const components: Record<FieldType["type"], () => ReactNode> = {
+  const components: Record<Field["type"], () => ReactNode> = {
     input,
     inputNumber,
     dropdown,

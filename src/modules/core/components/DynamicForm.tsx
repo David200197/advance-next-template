@@ -1,7 +1,10 @@
-import { DefaultValues, useForm } from "react-hook-form";
+import {
+  DefaultValues as HookFormDefaultValues,
+  useForm,
+} from "react-hook-form";
 import { ZodObject, infer as zInfer } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Form,
   FormControl,
@@ -13,14 +16,21 @@ import {
 } from "../ui/form";
 import { Button } from "../ui/button";
 import { DynamicField } from "./DynamicField";
-import { FieldType } from "../types/FieldType";
+import {
+  DefaultValues,
+  Fields,
+  OnSubmit,
+  UpdatedValues,
+} from "../types/form-type";
+import { createLoadingByUpdatedValues } from "../utils/create-loading-by-updated-values";
+import { Loader } from "lucide-react";
 
 export type DynamicFormProps<T extends ZodObject<any>> = {
   schema: T;
-  onSubmit: (data: zInfer<T>) => void;
-  defaultValues?: Partial<zInfer<T>>;
-  updatedValues?: Partial<zInfer<T>>;
-  fields?: Partial<Record<keyof zInfer<T>, FieldType>>;
+  onSubmit: OnSubmit<T>;
+  defaultValues?: DefaultValues<T>;
+  updatedValues?: UpdatedValues<T>;
+  fields?: Fields<T>;
   onBack?: () => void;
 };
 
@@ -32,23 +42,32 @@ export const DynamicForm = <T extends ZodObject<any>>({
   onBack,
   fields,
 }: DynamicFormProps<T>) => {
+  const updateValuesLoading = createLoadingByUpdatedValues(updatedValues);
+  const [formLoading, setFormLoading] = useState(false);
+  const loading = updateValuesLoading || formLoading;
+
+  const handleSubmit = async (values: zInfer<T>) => {
+    setFormLoading(true);
+    await onSubmit(values);
+    setFormLoading(false);
+  };
+
   const form = useForm({
     resolver: zodResolver(schema),
-    defaultValues: defaultValues as DefaultValues<zInfer<T>>,
+    defaultValues: defaultValues as HookFormDefaultValues<zInfer<T>>,
   });
 
   useEffect(() => {
     if (!updatedValues) return;
     for (const key in updatedValues) {
-      if (updatedValues[key]) {
-        form.setValue(key, updatedValues[key]);
-      }
+      if (!updatedValues[key]) continue;
+      form.setValue(key, updatedValues[key].value);
     }
   }, [updatedValues, form.setValue]);
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 ">
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8 ">
         <div className="grid grid-cols md:grid-cols-3 gap-4">
           {Object.keys(schema.shape).map((key) => (
             <FormField
@@ -57,12 +76,17 @@ export const DynamicForm = <T extends ZodObject<any>>({
               name={key}
               render={({ field: fieldControl }) => {
                 const field = fields?.[key];
+                const loading = updatedValues?.[key]?.loading;
 
                 return (
                   <FormItem className={field?.className ?? "mb-4"}>
                     <FormLabel>{key}</FormLabel>
                     <FormControl>
-                      <DynamicField fieldControl={fieldControl} field={field} />
+                      <DynamicField
+                        fieldControl={fieldControl}
+                        field={field}
+                        loading={loading}
+                      />
                     </FormControl>
                     <div className="relative">
                       <div className="flex flex-col absolute -top-1">
@@ -85,8 +109,8 @@ export const DynamicForm = <T extends ZodObject<any>>({
           <Button type="button" variant={"secondary"} onClick={onBack}>
             Cancel
           </Button>
-          <Button type="submit" variant={"default"}>
-            Send
+          <Button type="submit" variant={"default"} disabled={loading}>
+            {loading && <Loader className="animate-spin" />}Send
           </Button>
         </div>
       </form>
