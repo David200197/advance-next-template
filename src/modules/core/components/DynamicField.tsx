@@ -14,7 +14,8 @@ export const DynamicField = <T extends ZodObject<any>>({
   field,
   loading,
 }: Props<T>) => {
-  if (loading) return <Skeleton className="w-full h-[37px] rounded-md" />;
+  if (loading || (field as { loading?: boolean })?.loading)
+    return <Skeleton className="w-full h-[37px] rounded-md" />;
 
   const input = () => (
     <Input {...fieldControl} placeholder={field?.placeholder} />

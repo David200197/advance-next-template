@@ -16,7 +16,7 @@ export type FieldProperty<Type extends string, Object extends object = {}> = {
 export type Field =
   | FieldProperty<"input">
   | FieldProperty<"inputNumber">
-  | FieldProperty<"dropdown", { options: Option[] }>
+  | FieldProperty<"dropdown", { options: Option[], loading?: boolean }>
   | FieldProperty<"inputDate">;
 
 export type AsyncValue<T> = {
