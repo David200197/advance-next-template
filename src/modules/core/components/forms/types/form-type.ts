@@ -6,18 +6,25 @@ type Option = {
   value: any;
 };
 
-export type FieldProperty<Type extends string, Object extends object = {}> = {
+export type FieldProperty<
+  T,
+  Type extends string,
+  Object extends object = {}
+> = {
   type: Type;
   description?: string;
   className?: string;
   placeholder?: string;
+  defaultValue?: T;
+  loading?: boolean;
+  disabled?: boolean;
 } & Object;
 
-export type Field =
-  | FieldProperty<"input">
-  | FieldProperty<"inputNumber">
-  | FieldProperty<"dropdown", { options: Option[], loading?: boolean }>
-  | FieldProperty<"inputDate">;
+export type Field<T> =
+  | FieldProperty<T, "input">
+  | FieldProperty<T, "inputNumber", { min?: number; max?: number }>
+  | FieldProperty<T, "dropdown", { options: Option[] }>
+  | FieldProperty<T, "inputDate", { format?: string }>;
 
 export type AsyncValue<T> = {
   value: T;
@@ -25,7 +32,7 @@ export type AsyncValue<T> = {
 };
 
 export type Fields<T extends ZodObject<any>> = Partial<
-  Record<keyof zInfer<T>, Field>
+  Record<keyof zInfer<T>, Field<zInfer<T>[keyof zInfer<T>]>>
 >;
 
 export type OnSubmit<T extends ZodObject<any>> = (

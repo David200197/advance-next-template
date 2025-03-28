@@ -16,19 +16,14 @@ import {
 } from "../../ui/form";
 import { Button } from "../../ui/button";
 import { DynamicField } from "./DynamicField";
-import {
-  DefaultValues,
-  Fields,
-  OnSubmit,
-  UpdatedValues,
-} from "./types/form-type";
+import { Fields, OnSubmit, UpdatedValues } from "./types/form-type";
 import { Loader } from "lucide-react";
-import { createLoadingByUpdatedValues } from "./utils/create-loading-by-updated-values";
+import { getLoadingByUpdatedValues } from "./utils/get-loading-by-updated-values";
+import { getDefaultValuesByFields } from "./utils/get-default-values-by-fields";
 
 export type DynamicFormProps<T extends ZodObject<any>> = {
   schema: T;
   onSubmit: OnSubmit<T>;
-  defaultValues?: DefaultValues<T>;
   updatedValues?: UpdatedValues<T>;
   fields?: Fields<T>;
   onBack?: () => void;
@@ -37,12 +32,11 @@ export type DynamicFormProps<T extends ZodObject<any>> = {
 export const DynamicForm = <T extends ZodObject<any>>({
   schema,
   onSubmit,
-  defaultValues = {},
   updatedValues,
   onBack,
   fields,
 }: DynamicFormProps<T>) => {
-  const updateValuesLoading = createLoadingByUpdatedValues(updatedValues);
+  const updateValuesLoading = getLoadingByUpdatedValues(updatedValues);
   const [formLoading, setFormLoading] = useState(false);
   const loading = updateValuesLoading || formLoading;
 
@@ -52,9 +46,11 @@ export const DynamicForm = <T extends ZodObject<any>>({
     setFormLoading(false);
   };
 
+  const defaultValues = getDefaultValuesByFields(fields);
+
   const form = useForm({
     resolver: zodResolver(schema),
-    defaultValues: defaultValues as HookFormDefaultValues<zInfer<T>>,
+    defaultValues,
   });
 
   useEffect(() => {

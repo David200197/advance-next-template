@@ -14,6 +14,7 @@ const schema = z.object({
   email: z.string().email("Correo inválido"),
   age: z.number().min(18, "Debes tener al menos 18 años"),
   async: z.string(),
+  date: z.date(),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -35,7 +36,7 @@ const Template: StoryFn<DynamicFormProps<typeof schema>> = (args) => {
 
   useEffect(() => {
     setTimeout(() => {
-      setUpdatedValues({});
+      setUpdatedValues({ async: { loading: false, value: "this is async" } });
     }, 3000);
   }, []);
 
@@ -50,18 +51,32 @@ Default.args = {
     await sleep(3);
     console.log("Formulario enviado:", data);
   },
-  defaultValues: {
-    name: "Juan",
-  },
   fields: {
     name: {
       type: "input",
       description: "*This is a example",
       placeholder: "insert your name...",
+      defaultValue: "Juan",
     },
     email: {
       type: "input",
       placeholder: "Insert your email...",
+    },
+    age: {
+      type: "inputNumber",
+      min: 0,
+      max: 20,
+      defaultValue: 0,
+    },
+    async: {
+      type: "input",
+      defaultValue: "async value",
+      disabled: true,
+    },
+    date: {
+      type: "inputDate",
+      defaultValue: new Date(),
+      format: "yyyy-MM-dd HH:mm:ss",
     },
   },
 };

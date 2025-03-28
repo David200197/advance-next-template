@@ -1,7 +1,7 @@
 import { ZodObject } from "zod";
 import { UpdatedValues } from "../types/form-type";
 
-export const createLoadingByUpdatedValues = <T extends ZodObject<any>>(
+export const getLoadingByUpdatedValues = <T extends ZodObject<any>>(
   updatedValues?: UpdatedValues<T>
 ) => {
   if (!updatedValues) return false;
