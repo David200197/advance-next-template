@@ -31,7 +31,6 @@ A Next.js template with advanced configuration and pre-set best practices for ra
    cd advance-next-template
    ```
 
-````
 
 2. Install dependencies:
 
@@ -132,4 +131,4 @@ This README includes:
 - Concise feature list
 
 Let me know if you'd like to adjust any sections!
-````
+```
