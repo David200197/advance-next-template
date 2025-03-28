@@ -8,11 +8,10 @@ import { Button } from "./button";
 import { Calendar } from "./calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 import { cn } from "../lib/utils";
-import { Noop, RefCallBack } from "react-hook-form";
+import { RefCallBack } from "react-hook-form";
 
 type Props = {
   onChange?: (...event: any[]) => void;
-  onBlur?: Noop;
   value?: any;
   disabled?: boolean;
   name?: string;
@@ -23,7 +22,6 @@ type Props = {
 export const DatePicker = ({
   ref,
   onChange,
-  onBlur,
   value,
   name,
   disabled,
@@ -35,7 +33,6 @@ export const DatePicker = ({
         <Button
           ref={ref}
           name={name}
-          onBlur={onBlur}
           variant={"outline"}
           className={cn(
             "w-full justify-start text-left font-normal",

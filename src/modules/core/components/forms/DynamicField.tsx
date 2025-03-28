@@ -4,16 +4,20 @@ import { Input } from "../../ui/input";
 import { Skeleton } from "../../ui/skeleton";
 import { ZodObject } from "zod";
 import { DatePicker } from "../../ui/datepicker";
+import { DatePickerWithRange } from "../../ui/datepicker-with-range";
+import { Dropdown } from "../../ui/dropdown";
 
 type Props<T extends ZodObject<any>> = {
   fieldControl: FieldControl;
   field?: Field<T>;
   loading?: boolean;
+  disabled?: boolean;
 };
 export const DynamicField = <T extends ZodObject<any>>({
   fieldControl,
   field,
   loading,
+  disabled,
 }: Props<T>) => {
   if (loading || field?.loading)
     return <Skeleton className="w-full h-[37px] rounded-md" />;
@@ -22,7 +26,7 @@ export const DynamicField = <T extends ZodObject<any>>({
     <Input
       {...fieldControl}
       placeholder={field?.placeholder}
-      disabled={field?.disabled}
+      disabled={disabled || field?.disabled}
     />
   );
 
@@ -35,31 +39,41 @@ export const DynamicField = <T extends ZodObject<any>>({
       type="number"
       min={field?.type === "inputNumber" ? field.min : undefined}
       max={field?.type === "inputNumber" ? field.max : undefined}
-      disabled={field?.disabled}
+      disabled={disabled || field?.disabled}
     />
   );
 
-  const dropdown = () => (
-    <Input
+  const inputSelect = () => (
+    <Dropdown
       {...fieldControl}
+      options={field?.type === "inputSelect" ? field.options : []}
       placeholder={field?.placeholder}
-      disabled={field?.disabled}
+      disabled={disabled || field?.disabled}
     />
   );
 
   const inputDate = () => (
     <DatePicker
       {...fieldControl}
-      disabled={field?.disabled}
       format={field?.type === "inputDate" ? field.format : undefined}
+      disabled={disabled || field?.disabled}
+    />
+  );
+
+  const inputRangeDate = () => (
+    <DatePickerWithRange
+      {...fieldControl}
+      format={field?.type === "inputRangeDate" ? field.format : undefined}
+      disabled={disabled || field?.disabled}
     />
   );
 
   const components: Record<Field<T>["type"], () => ReactNode> = {
     input,
     inputNumber,
-    dropdown,
+    inputSelect,
     inputDate,
+    inputRangeDate,
   };
 
   const Component = field?.type ? components[field?.type] : input;

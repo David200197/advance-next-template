@@ -20,6 +20,7 @@ import { Fields, OnSubmit, UpdatedValues } from "./types/form-type";
 import { Loader } from "lucide-react";
 import { getLoadingByUpdatedValues } from "./utils/get-loading-by-updated-values";
 import { getDefaultValuesByFields } from "./utils/get-default-values-by-fields";
+import { getLoadingByFields } from "./utils/get-loading-by-fields";
 
 export type DynamicFormProps<T extends ZodObject<any>> = {
   schema: T;
@@ -37,8 +38,9 @@ export const DynamicForm = <T extends ZodObject<any>>({
   fields,
 }: DynamicFormProps<T>) => {
   const updateValuesLoading = getLoadingByUpdatedValues(updatedValues);
+  const fieldsLoading = getLoadingByFields(fields);
   const [formLoading, setFormLoading] = useState(false);
-  const loading = updateValuesLoading || formLoading;
+  const loading = updateValuesLoading || fieldsLoading || formLoading;
 
   const handleSubmit = async (values: zInfer<T>) => {
     setFormLoading(true);
@@ -72,7 +74,7 @@ export const DynamicForm = <T extends ZodObject<any>>({
               name={key}
               render={({ field: fieldControl }) => {
                 const field = fields?.[key];
-                const loading = updatedValues?.[key]?.loading;
+                const updateLoading = updatedValues?.[key]?.loading;
 
                 return (
                   <FormItem className={field?.className ?? "mb-4"}>
@@ -81,7 +83,8 @@ export const DynamicForm = <T extends ZodObject<any>>({
                       <DynamicField
                         fieldControl={fieldControl}
                         field={field}
-                        loading={loading}
+                        loading={updateLoading}
+                        disabled={loading}
                       />
                     </FormControl>
                     <div className="relative">

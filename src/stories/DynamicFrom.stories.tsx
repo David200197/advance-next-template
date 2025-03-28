@@ -15,6 +15,11 @@ const schema = z.object({
   age: z.number().min(18, "Debes tener al menos 18 años"),
   async: z.string(),
   date: z.date(),
+  dateRange: z.object({
+    from: z.date(),
+    to: z.date(),
+  }),
+  selector: z.string(),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -77,6 +82,19 @@ Default.args = {
       type: "inputDate",
       defaultValue: new Date(),
       format: "yyyy-MM-dd HH:mm:ss",
+    },
+    dateRange: {
+      type: "inputRangeDate",
+      defaultValue: { from: new Date(), to: new Date() },
+      format: "yyyy-MM-dd",
+    },
+    selector: {
+      type: "inputSelect",
+      options: [
+        { value: "option1", label: "Option 1" },
+        { value: "option2", label: "Option 2" },
+      ],
+      defaultValue: "option2",
     },
   },
 };

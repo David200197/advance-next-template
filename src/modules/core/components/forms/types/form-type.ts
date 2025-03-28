@@ -1,10 +1,12 @@
 import { ControllerRenderProps } from "react-hook-form";
 import { ZodObject, infer as zInfer } from "zod";
 
-type Option = {
+export type ItemSelector = {
   label: string;
   value: any;
 };
+
+export type ItemSelectors = ItemSelector[];
 
 export type FieldProperty<
   T,
@@ -23,8 +25,9 @@ export type FieldProperty<
 export type Field<T> =
   | FieldProperty<T, "input">
   | FieldProperty<T, "inputNumber", { min?: number; max?: number }>
-  | FieldProperty<T, "dropdown", { options: Option[] }>
-  | FieldProperty<T, "inputDate", { format?: string }>;
+  | FieldProperty<T, "inputSelect", { options: ItemSelectors }>
+  | FieldProperty<T, "inputDate", { format?: string }>
+  | FieldProperty<T, "inputRangeDate", { format?: string }>;
 
 export type AsyncValue<T> = {
   value: T;
