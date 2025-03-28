@@ -4,9 +4,9 @@ import { z } from "zod";
 import {
   DynamicForm,
   DynamicFormProps,
-} from "@/modules/core/components/DynamicForm";
+} from "@/modules/core/components/forms/DynamicForm";
 import { sleep } from "@/modules/core/utils/sleep";
-import { UpdatedValues } from "@/modules/core/types/form-type";
+import { UpdatedValues } from "@/modules/core/components/forms/types/form-type";
 
 // 📌 Esquema de validación con Zod
 const schema = z.object({

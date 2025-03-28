@@ -13,17 +13,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../ui/form";
-import { Button } from "../ui/button";
+} from "../../ui/form";
+import { Button } from "../../ui/button";
 import { DynamicField } from "./DynamicField";
 import {
   DefaultValues,
   Fields,
   OnSubmit,
   UpdatedValues,
-} from "../types/form-type";
-import { createLoadingByUpdatedValues } from "../utils/create-loading-by-updated-values";
+} from "./types/form-type";
 import { Loader } from "lucide-react";
+import { createLoadingByUpdatedValues } from "./utils/create-loading-by-updated-values";
 
 export type DynamicFormProps<T extends ZodObject<any>> = {
   schema: T;

@@ -1,19 +1,14 @@
 import { ReactNode } from "react";
-import { ZodObject } from "zod";
-import { FieldControl, Field } from "../types/form-type";
-import { Input } from "../ui/input";
-import { Skeleton } from "../ui/skeleton";
+import { FieldControl, Field } from "./types/form-type";
+import { Input } from "../../ui/input";
+import { Skeleton } from "../../ui/skeleton";
 
-type Props<T extends ZodObject<any>> = {
+type Props = {
   fieldControl: FieldControl;
   field?: Field;
   loading?: boolean;
 };
-export const DynamicField = <T extends ZodObject<any>>({
-  fieldControl,
-  field,
-  loading,
-}: Props<T>) => {
+export const DynamicField = ({ fieldControl, field, loading }: Props) => {
   if (loading || (field as { loading?: boolean })?.loading)
     return <Skeleton className="w-full h-[37px] rounded-md" />;
 
