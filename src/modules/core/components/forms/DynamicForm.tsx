@@ -1,7 +1,4 @@
-import {
-  DefaultValues as HookFormDefaultValues,
-  useForm,
-} from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { ZodObject, infer as zInfer } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
@@ -15,12 +12,13 @@ import {
   FormMessage,
 } from "../../ui/form";
 import { Button } from "../../ui/button";
-import { DynamicField } from "./DynamicField";
+import { dynamicField } from "./DynamicField";
 import { Fields, OnSubmit, UpdatedValues } from "./types/form-type";
 import { Loader } from "lucide-react";
 import { getLoadingByUpdatedValues } from "./utils/get-loading-by-updated-values";
 import { getDefaultValuesByFields } from "./utils/get-default-values-by-fields";
 import { getLoadingByFields } from "./utils/get-loading-by-fields";
+import { cn } from "../../lib/utils";
 
 export type DynamicFormProps<T extends ZodObject<any>> = {
   schema: T;
@@ -66,7 +64,7 @@ export const DynamicForm = <T extends ZodObject<any>>({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8 ">
-        <div className="grid grid-cols md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-12 gap-4">
           {Object.keys(schema.shape).map((key) => (
             <FormField
               key={key}
@@ -77,15 +75,22 @@ export const DynamicForm = <T extends ZodObject<any>>({
                 const updateLoading = updatedValues?.[key]?.loading;
 
                 return (
-                  <FormItem className={field?.className ?? "mb-4"}>
+                  <FormItem
+                    className={cn(
+                      field?.className ?? "col-span-12 mb-4",
+                      field?.type === "textarea"
+                        ? "md:col-span-12"
+                        : "md:col-span-4"
+                    )}
+                  >
                     <FormLabel>{key}</FormLabel>
                     <FormControl>
-                      <DynamicField
-                        fieldControl={fieldControl}
-                        field={field}
-                        loading={updateLoading}
-                        disabled={loading}
-                      />
+                      {dynamicField({
+                        fieldControl,
+                        field,
+                        loading: updateLoading,
+                        disabled: loading,
+                      })}
                     </FormControl>
                     <div className="relative">
                       <div className="flex flex-col absolute -top-1">

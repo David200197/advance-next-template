@@ -24,6 +24,7 @@ export type FieldProperty<
 
 export type Field<T> =
   | FieldProperty<T, "input">
+  | FieldProperty<T, "textarea">
   | FieldProperty<T, "inputNumber", { min?: number; max?: number }>
   | FieldProperty<T, "inputSelect", { options: ItemSelectors }>
   | FieldProperty<T, "inputDate", { format?: string }>

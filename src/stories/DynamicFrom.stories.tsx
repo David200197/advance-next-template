@@ -20,6 +20,7 @@ const schema = z.object({
     to: z.date(),
   }),
   selector: z.string(),
+  textarea: z.string().nullish(),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -95,6 +96,10 @@ Default.args = {
         { value: "option2", label: "Option 2" },
       ],
       defaultValue: "option2",
+    },
+    textarea: {
+      type: "textarea",
+      placeholder: "Insert your text...",
     },
   },
 };
