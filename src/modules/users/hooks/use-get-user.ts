@@ -6,12 +6,12 @@ import { UserService } from "../services/user-service";
 export const useGetUser = () => {
   const userService = useGetService(UserService);
 
-  const { isLoading, error, data } = useQuery<User, Error>({
+  const { isLoading, error, data, refetch } = useQuery<User, Error>({
     queryKey: ["user"],
     queryFn: () => {
       return userService.getUser("");
     },
   });
 
-  return { user: data, isLoading, error };
+  return { user: data, isLoading, error, refetch };
 };
