@@ -15,3 +15,8 @@ export const DiProvider = ({ children }: Props) => {
 export const useDi = () => {
   return useContext(DiContext);
 };
+
+export const useGetService: Container["get"] = (serviceIdentifier) => {
+  const container = useDi();
+  return container.get(serviceIdentifier);
+};
