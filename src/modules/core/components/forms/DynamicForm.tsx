@@ -77,10 +77,11 @@ export const DynamicForm = <T extends ZodObject<any>>({
                 return (
                   <FormItem
                     className={cn(
-                      field?.className ?? "col-span-12 mb-4",
+                      "mb-4",
+                      field?.className ?? "col-span-12 md:col-span-4",
                       field?.type === "textarea"
                         ? "md:col-span-12"
-                        : "md:col-span-4"
+                        : ""
                     )}
                   >
                     <FormLabel>{key}</FormLabel>
