@@ -1,6 +1,6 @@
-import { Container } from "inversify";
+import { ContainerModule } from "inversify";
 import { UserService } from "../services/user-service";
 
-export const UserModule = (container: Container) => {
-  container.bind(UserService).toSelf().inSingletonScope();
-};
+export const UserModule = new ContainerModule((bind) => {
+  bind(UserService).toSelf().inSingletonScope();
+});
