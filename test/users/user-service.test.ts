@@ -21,7 +21,7 @@ describe("User Service", () => {
 
   it("should get a user", async () => {
     const userSchema = UserMother.create();
-    const user = User.create(userSchema);
+    const user = new User(userSchema);
     httpClient.get.mockResolvedValue(userSchema);
     const result = await userService.getUser("id");
     expect(result).toEqual(user);

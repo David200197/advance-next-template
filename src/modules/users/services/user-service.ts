@@ -1,5 +1,5 @@
 import { User, UserSchema } from "../entities/User";
-import { Users, UsersSchema } from "../entities/Users";
+import { Users } from "../entities/Users";
 import type { HttpClient } from "@/modules/core/models/HttpClient";
 import { InjectHttpClient } from "@/modules/core/decorators/InjectHttpClient";
 import { Injectable } from "@/modules/core/decorators/Injectable";
@@ -17,11 +17,11 @@ export class UserService {
     const user = await this.httpClient.get<UserSchema>(
       `${this.BASE_URL}/${id}`
     );
-    return User.create(user);
+    return new User(user);
   };
 
   getUsers = async () => {
-    const users = await this.httpClient.get<UsersSchema>(this.BASE_URL);
+    const users = await this.httpClient.get<UserSchema[]>(this.BASE_URL);
     return Users.create(users);
   };
 }
