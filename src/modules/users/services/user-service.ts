@@ -17,11 +17,11 @@ export class UserService {
     const user = await this.httpClient.get<UserSchema>(
       `${this.BASE_URL}/${id}`
     );
-    return new User(user);
+    return User.create(user);
   };
 
   getUsers = async () => {
     const users = await this.httpClient.get<UsersSchema>(this.BASE_URL);
-    return new Users(users);
+    return Users.create(users);
   };
 }

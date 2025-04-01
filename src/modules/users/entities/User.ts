@@ -1,4 +1,4 @@
-import { Entity } from "@/modules/core/decorators/Entity";
+import { validateSchema } from "@/modules/core/utils/validate-model-schema";
 import { z } from "zod";
 
 export const userSchema = z.object({
@@ -9,14 +9,17 @@ export const userSchema = z.object({
 
 export type UserSchema = z.infer<typeof userSchema>;
 
-@Entity(userSchema)
 export class User implements UserSchema {
   id!: string;
   name!: string;
   email!: string;
 
-  constructor(data: UserSchema) {
+  private constructor(data: UserSchema) {
     Object.assign(this, data);
+  }
+
+  static create(data: UserSchema) {
+    return new User(validateSchema(User.name, userSchema, data));
   }
 
   getDisplayName() {
