@@ -34,4 +34,40 @@ describe("Users", () => {
     expect(users).toBeInstanceOf(Users);
     expect(users).toHaveLength(0);
   });
+
+  it("should group users by a specified key", () => {
+    const userData = [
+      { id: "1", name: "John Doe", email: "john.doe@example.com" },
+      { id: "2", name: "Jane Doe", email: "jane.doe@example.com" },
+      { id: "3", name: "John Smith", email: "john.smith@example.com" },
+    ];
+
+    const users = Users.create(userData);
+
+    const groupedByName = users.groupBy("name");
+
+    expect(groupedByName).toEqual({
+      "John Doe": [
+        { id: "1", name: "John Doe", email: "john.doe@example.com" },
+      ],
+      "Jane Doe": [
+        { id: "2", name: "Jane Doe", email: "jane.doe@example.com" },
+      ],
+      "John Smith": [
+        { id: "3", name: "John Smith", email: "john.smith@example.com" },
+      ],
+    });
+
+    const groupedByEmailDomain = users.groupBy(
+      (user) => user.email.split("@")[1]
+    );
+
+    expect(groupedByEmailDomain).toEqual({
+      "example.com": [
+        { id: "1", name: "John Doe", email: "john.doe@example.com" },
+        { id: "2", name: "Jane Doe", email: "jane.doe@example.com" },
+        { id: "3", name: "John Smith", email: "john.smith@example.com" },
+      ],
+    });
+  });
 });
