@@ -1,15 +1,15 @@
 import { User, UserSchema } from "../model/User";
 import { Users, UsersSchema } from "../model/Users";
-import { injectable } from "inversify";
 import type { HttpClient } from "@/modules/core/models/HttpClient";
-import { injectHttpClient } from "@/modules/core/decorators/inject-http-client";
+import { InjectHttpClient } from "@/modules/core/decorators/InjectHttpClient";
+import { Injectable } from "@/modules/core/decorators/Injectable";
 
-@injectable()
+@Injectable()
 export class UserService {
   private readonly BASE_URL = "/user";
 
   constructor(
-    @injectHttpClient()
+    @InjectHttpClient()
     private readonly httpClient: HttpClient
   ) {}
 

@@ -1,8 +1,7 @@
-import { injectable } from "inversify";
 import { HttpClient } from "../models/HttpClient";
 import axios, { AxiosInstance, AxiosResponse } from "axios";
-import { injectEnvironmentConfig } from "../decorators/inject-environment-config";
-import { EnvironmentConfig } from "./environment-config";
+import { InjectConfigService } from "../decorators/InjectConfigService";
+import { ConfigService } from "./config-service";
 import toast from "react-hot-toast";
 import { ServerError } from "../exceptions/server-error";
 import { NotFoundError } from "../exceptions/not-found-error";
@@ -11,16 +10,17 @@ import { ForbiddenError } from "../exceptions/forbidden-error";
 import { ApiError } from "../exceptions/api-error";
 import { NetworkError } from "../exceptions/network-error";
 import { UnknownError } from "../exceptions/uknown-error";
+import { Injectable } from "../decorators/Injectable";
 
-@injectable()
+@Injectable()
 export class HttpClientAxios implements HttpClient {
   private readonly apiClient: AxiosInstance;
   constructor(
-    @injectEnvironmentConfig()
-    environmentConfig: EnvironmentConfig
+    @InjectConfigService()
+    configService: ConfigService
   ) {
     this.apiClient = axios.create({
-      baseURL: environmentConfig.get("NEXT_PUBLIC_API_URL"),
+      baseURL: configService.get("NEXT_PUBLIC_API_URL"),
       headers: { "Content-Type": "application/json" },
     });
     this.apiClient.interceptors.response.use(

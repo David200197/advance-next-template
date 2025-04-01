@@ -1,4 +1,4 @@
 import { inject } from "inversify";
 import { CORE_DI } from "../constants/core-di";
 
-export const injectEnvironmentConfig = () => inject(CORE_DI.ENVIRONMENT_CONFIG);
+export const InjectHttpClient = () => inject(CORE_DI.HTTP_CLIENT);

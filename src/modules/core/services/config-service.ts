@@ -1,6 +1,6 @@
-import { injectable } from "inversify";
 import { z, infer as ZInfer } from "zod";
 import { validateSchema } from "../utils/validate-model-schema";
+import { Injectable } from "../decorators/Injectable";
 
 const envSchema = z.object({
   NEXT_PUBLIC_API_URL: z.string().url(),
@@ -8,8 +8,8 @@ const envSchema = z.object({
 
 type EnvSchema = ZInfer<typeof envSchema>;
 
-@injectable()
-export class EnvironmentConfig {
+@Injectable()
+export class ConfigService {
   private readonly env: EnvSchema;
 
   constructor() {
