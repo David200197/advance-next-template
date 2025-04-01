@@ -1,6 +1,6 @@
 import { useGetService } from "@/modules/core/contexts/DiContext";
 import { useQuery } from "@tanstack/react-query";
-import { User } from "../model/User";
+import { User } from "../entities/User";
 import { UserService } from "../services/user-service";
 
 export const useGetUser = () => {

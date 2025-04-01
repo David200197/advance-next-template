@@ -1,4 +1,4 @@
-import { UserSchema } from "@/modules/users/model/User";
+import { UserSchema } from "@/modules/users/entities/User";
 
 export class UserBuilder implements UserSchema {
   id!: string;

@@ -5,7 +5,7 @@ import { it, describe, beforeAll, expect } from "vitest";
 import { HttpClient } from "@/modules/core/models/HttpClient";
 import { UserMother } from "./models/user-mother";
 import { CORE_DI } from "@/modules/core/constants/core-di";
-import { User } from "@/modules/users/model/User";
+import { User } from "@/modules/users/entities/User";
 
 describe("User Service", () => {
   let userService: UserService;

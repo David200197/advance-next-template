@@ -1,4 +1,4 @@
-import { Model } from "@/modules/core/decorators/Model";
+import { Entity } from "@/modules/core/decorators/Entity";
 import { z } from "zod";
 
 export const userSchema = z.object({
@@ -9,7 +9,7 @@ export const userSchema = z.object({
 
 export type UserSchema = z.infer<typeof userSchema>;
 
-@Model(userSchema)
+@Entity(userSchema)
 export class User implements UserSchema {
   id!: string;
   name!: string;

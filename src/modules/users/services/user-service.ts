@@ -1,5 +1,5 @@
-import { User, UserSchema } from "../model/User";
-import { Users, UsersSchema } from "../model/Users";
+import { User, UserSchema } from "../entities/User";
+import { Users, UsersSchema } from "../entities/Users";
 import type { HttpClient } from "@/modules/core/models/HttpClient";
 import { InjectHttpClient } from "@/modules/core/decorators/InjectHttpClient";
 import { Injectable } from "@/modules/core/decorators/Injectable";
