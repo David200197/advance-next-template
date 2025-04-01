@@ -1,19 +1,14 @@
 import { z } from "zod";
 import { User, userSchema } from "./User";
-import { validateSchema } from "@/modules/core/utils/validate-model-schema";
 import { Collections } from "@/modules/core/models/Collection";
+import { Model } from "@/modules/core/decorators/Model";
 
 const usersSchema = z.array(userSchema);
-
 export type UsersSchema = z.infer<typeof usersSchema>;
 
+@Model(usersSchema)
 export class Users extends Collections<User> {
-  private constructor(...users: User[]) {
-    super(...users);
-  }
-
-  static create(users: UsersSchema) {
-    const currentUsers = validateSchema(Users.name, usersSchema, users);
-    return new Users(...currentUsers.map((user) => User.create(user)));
+  constructor(usersSchema: UsersSchema) {
+    super(...usersSchema.map((user) => new User(user)));
   }
 }
