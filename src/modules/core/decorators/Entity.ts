@@ -45,7 +45,8 @@ export function Entity<T extends ZodObject<any>>(schema: T) {
   return function <TClass extends Constructor>(constructor: TClass) {
     return class extends constructor {
       constructor(...args: any[]) {
-        validateSchema(constructor.name, schema, args[0]);
+        const validated = validateSchema(constructor.name, schema, args[0]);
+        args[0] = validated
         super(...args);
 
         const proxy = new Proxy(this, {

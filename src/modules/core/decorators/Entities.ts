@@ -33,8 +33,8 @@ export function Entities() {
   return function <TClass extends Constructor>(constructor: TClass) {
     return class extends constructor {
       constructor(...args: any[]) {
-        validateSchema(constructor.name, arraySchema, args);
-        super(...args);
+        const validated = validateSchema(constructor.name, arraySchema, args);
+        super(...validated);
       }
     };
   };
