@@ -1,12 +1,15 @@
 import { Users } from "@/modules/users/entities/Users";
 import { describe, it, expect } from "vitest";
 import { User } from "@/modules/users/entities/User";
+import { UserBuilder } from "./models/user-builder";
 
 describe("Users", () => {
   it("should create a Users instance with valid user data", () => {
+
+
     const userData = [
-      { id: "1", name: "John Doe", email: "john.doe@example.com" },
-      { id: "2", name: "Jane Doe", email: "jane.doe@example.com" },
+      new UserBuilder().withName("John Joe").withId("1").withEmail("john.joe@example.com").schema(),
+      new UserBuilder().withName("Jane Joe").withId("1").withEmail("jane.joe@example.com").schema(),
     ];
 
     const users = Users.create(userData);
@@ -14,8 +17,8 @@ describe("Users", () => {
     expect(users).toBeInstanceOf(Users);
     expect(users).toHaveLength(2);
     expect(users[0]).toBeInstanceOf(User);
-    expect(users[0].name).toBe("John Doe");
-    expect(users[1].email).toBe("jane.doe@example.com");
+    expect(users[0].name).toBe("John Joe");
+    expect(users[1].email).toBe("jane.joe@example.com");
   });
 
   it("should throw an error when invalid user data is provided", () => {

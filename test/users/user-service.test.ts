@@ -5,7 +5,7 @@ import { it, describe, beforeAll, expect } from "vitest";
 import { HttpClient } from "@/modules/core/models/HttpClient";
 import { UserMother } from "./models/user-mother";
 import { CORE_DI } from "@/modules/core/constants/core-di";
-import { User } from "@/modules/users/entities/User";
+import { UserSchemaMother } from "./models/user-schema-mother";
 
 describe("User Service", () => {
   let userService: UserService;
@@ -20,8 +20,8 @@ describe("User Service", () => {
   });
 
   it("should get a user", async () => {
-    const userSchema = UserMother.create();
-    const user = new User(userSchema);
+    const userSchema = UserSchemaMother.create();
+    const user = UserMother.create();
     httpClient.get.mockResolvedValue(userSchema);
     const result = await userService.getUser("id");
     expect(result).toEqual(user);

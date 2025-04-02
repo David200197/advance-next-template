@@ -15,26 +15,22 @@ describe("User Model", () => {
 
   it("should throw an error if required fields are missing", () => {
     const fn = () =>
-      new User(
-        new UserBuilder()
-          .withId(undefined as any)
-          .withEmail(undefined as any)
-          .withName(undefined as any)
-          .build()
-      );
+      new UserBuilder()
+        .withId(undefined as any)
+        .withEmail(undefined as any)
+        .withName(undefined as any)
+        .build();
 
     expect(fn).toThrowError();
   });
 
   it("should validate email format", () => {
     const fn = () =>
-      new User(
-        new UserBuilder()
-          .withId("1234567890")
-          .withEmail("John Doe")
-          .withName("invalid-name")
-          .build()
-      );
+      new UserBuilder()
+        .withId("1234567890")
+        .withEmail("John Doe")
+        .withName("invalid-name")
+        .build();
 
     expect(fn).toThrowError();
   });
