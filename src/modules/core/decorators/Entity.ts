@@ -1,7 +1,6 @@
 import { ZodObject } from "zod";
 import { validateSchema } from "../utils/validate-model-schema";
-
-type Constructor = new (...args: any[]) => {};
+import { Constructor } from "../models/Constructor";
 
 /**
  * A class decorator that enforces validation of input data against a Zod schema.
@@ -46,7 +45,7 @@ export function Entity<T extends ZodObject<any>>(schema: T) {
     return class extends constructor {
       constructor(...args: any[]) {
         const validated = validateSchema(constructor.name, schema, args[0]);
-        args[0] = validated
+        args[0] = validated;
         super(...args);
 
         const proxy = new Proxy(this, {

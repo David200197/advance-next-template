@@ -1,9 +1,8 @@
 import { z } from "zod";
 import { validateSchema } from "../utils/validate-model-schema";
+import { Constructor } from "../models/Constructor";
 
 const arraySchema = z.array(z.any());
-
-type Constructor = new (...args: any[]) => {};
 
 /**
  * A decorator function that validates the arguments passed to a class constructor
