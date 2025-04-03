@@ -59,7 +59,7 @@ export const DynamicForm = <T extends ZodObject<any>>({
       if (!updatedValues[key]) continue;
       form.setValue(key, updatedValues[key].value);
     }
-  }, [updatedValues, form.setValue]);
+  }, [updatedValues, form]);
 
   return (
     <Form {...form}>
