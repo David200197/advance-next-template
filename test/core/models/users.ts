@@ -1,6 +1,6 @@
-import { User, UserSchema } from "./User";
-import { Collection } from "@/modules/core/lib/Collection";
 import { Entities } from "@/modules/core/decorators/Entities";
+import { Collection } from "@/modules/core/lib/Collection";
+import { User, UserSchema } from "./user";
 
 @Entities()
 export class Users extends Collection<User> {

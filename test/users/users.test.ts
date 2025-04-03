@@ -5,11 +5,17 @@ import { UserBuilder } from "./models/user-builder";
 
 describe("Users", () => {
   it("should create a Users instance with valid user data", () => {
-
-
     const userData = [
-      new UserBuilder().withName("John Joe").withId("1").withEmail("john.joe@example.com").schema(),
-      new UserBuilder().withName("Jane Joe").withId("1").withEmail("jane.joe@example.com").schema(),
+      new UserBuilder()
+        .withName("John Joe")
+        .withId("1")
+        .withEmail("john.joe@example.com")
+        .schema(),
+      new UserBuilder()
+        .withName("Jane Joe")
+        .withId("1")
+        .withEmail("jane.joe@example.com")
+        .schema(),
     ];
 
     const users = Users.create(userData);
@@ -60,6 +66,9 @@ describe("Users", () => {
         { id: "3", name: "John Smith", email: "john.smith@example.com" },
       ],
     });
+
+    expect(groupedByName["John Doe"]).instanceOf(Users);
+    expect(groupedByName["John Doe"][0]).instanceOf(User);
 
     const groupedByEmailDomain = users.groupBy(
       (user) => user.email.split("@")[1]
