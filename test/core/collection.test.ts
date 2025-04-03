@@ -1,5 +1,7 @@
 import { Collection } from "@/modules/core/lib/Collection";
 import { describe, it, expect } from "vitest";
+import { Users } from "./models/users";
+import { User, UserSchema } from "./models/user";
 
 describe("Collection", () => {
   type Item = { id: number; name: string; category: string };
@@ -81,5 +83,17 @@ describe("Collection", () => {
 
       expect(filtered).toHaveLength(0);
     });
+  });
+
+  it("should group entities by a specified instance of class", () => {
+    const userData: UserSchema[] = [
+      { id: "1", name: "John Doe", email: "john.doe@example.com", age: 1 },
+      { id: "2", name: "Jane Doe", email: "jane.doe@example.com", age: 1 },
+      { id: "3", name: "John Smith", email: "john.smith@example.com", age: 1 },
+    ];
+    const users = Users.create(userData);
+    const groupedByName = users.groupBy("name");
+    expect(groupedByName["John Doe"]).instanceOf(Users);
+    expect(groupedByName["John Doe"][0]).instanceOf(User);
   });
 });
