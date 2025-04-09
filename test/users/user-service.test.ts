@@ -4,7 +4,7 @@ import { UserService } from "@/modules/users/services/user-service";
 import { it, describe, beforeAll, expect } from "vitest";
 import { HttpClient } from "@/modules/core/models/HttpClient";
 import { UserMother } from "./models/user-mother";
-import { CORE_DI } from "@/modules/core/constants/core-di";
+import { CORE_DI } from "@/modules/core/di/types";
 import { UserSchemaMother } from "./models/user-schema-mother";
 
 describe("User Service", () => {

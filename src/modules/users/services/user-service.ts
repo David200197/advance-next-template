@@ -1,8 +1,8 @@
-import { User, UserSchema } from "../entities/User";
-import { Users } from "../entities/Users";
 import type { HttpClient } from "@/modules/core/models/HttpClient";
 import { InjectHttpClient } from "@/modules/core/decorators/InjectHttpClient";
 import { Injectable } from "@/modules/core/decorators/Injectable";
+import { UserFactory } from "./user-factory";
+import { UserSchema } from "../entities/User";
 
 @Injectable()
 export class UserService {
@@ -10,18 +10,19 @@ export class UserService {
 
   constructor(
     @InjectHttpClient()
-    private readonly httpClient: HttpClient
+    private readonly httpClient: HttpClient,
+    private readonly userFactory: UserFactory
   ) {}
 
   getUser = async (id: string) => {
     const user = await this.httpClient.get<UserSchema>(
       `${this.BASE_URL}/${id}`
     );
-    return new User(user);
+    return this.userFactory.createUser(user);
   };
 
   getUsers = async () => {
     const users = await this.httpClient.get<UserSchema[]>(this.BASE_URL);
-    return Users.create(users);
+    return this.userFactory.createUsers(users);
   };
 }

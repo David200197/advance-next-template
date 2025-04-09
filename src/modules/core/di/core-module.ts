@@ -3,7 +3,7 @@ import { HttpClient } from "../models/HttpClient";
 import { ExceptionHandler } from "../interceptors/exception-handler";
 import { ExceptionHandlerModel } from "../models/ErrorHandler";
 import { ContainerModule } from "inversify";
-import { CORE_DI } from "../constants/core-di";
+import { CORE_DI } from "./types";
 import { ConfigService } from "../services/config-service";
 
 export const CoreModule = new ContainerModule((bind) => {

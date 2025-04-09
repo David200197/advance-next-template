@@ -1,4 +1,5 @@
 import { Entity } from "@/modules/core/decorators/Entity";
+import { HttpClient } from "@/modules/core/models/HttpClient";
 import { z } from "zod";
 
 export const userSchema = z.object({
@@ -11,6 +12,12 @@ export type UserSchema = z.infer<typeof userSchema>;
 
 @Entity(userSchema)
 export class User implements UserSchema {
+  private httpClient!: HttpClient;
+
+  injectDependencies(httpClient: HttpClient) {
+    if (!this.httpClient) this.httpClient = httpClient;
+  }
+
   id!: string;
   name!: string;
   email!: string;
