@@ -3,7 +3,7 @@ import { HttpClient } from "@/modules/core/models/HttpClient";
 import { z } from "zod";
 
 export const userSchema = z.object({
-  id: z.string(),
+  id: z.number(),
   name: z.string(),
   email: z.string().email(),
 });
@@ -18,7 +18,7 @@ export class User implements UserSchema {
     if (!this.httpClient) this.httpClient = httpClient;
   }
 
-  id!: string;
+  id!: number;
   name!: string;
   email!: string;
 
@@ -28,5 +28,13 @@ export class User implements UserSchema {
 
   getDisplayName() {
     return `${this.name} (${this.email})`;
+  }
+
+  async update(data: Partial<UserSchema>) {
+    await this.httpClient.put(`/users/${this.id}`, data);
+  }
+
+  async delete() {
+    await this.httpClient.delete(`/users/${this.id}`);
   }
 }

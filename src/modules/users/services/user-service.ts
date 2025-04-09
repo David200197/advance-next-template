@@ -6,7 +6,7 @@ import { UserSchema } from "../entities/User";
 
 @Injectable()
 export class UserService {
-  private readonly BASE_URL = "/user";
+  private readonly BASE_URL = "/users";
 
   constructor(
     @InjectHttpClient()
@@ -14,7 +14,7 @@ export class UserService {
     private readonly userFactory: UserFactory
   ) {}
 
-  getUser = async (id: string) => {
+  getUser = async (id: number) => {
     const user = await this.httpClient.get<UserSchema>(
       `${this.BASE_URL}/${id}`
     );

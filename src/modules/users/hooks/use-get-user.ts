@@ -6,10 +6,10 @@ import { UserService } from "../services/user-service";
 export const useGetUser = () => {
   const userService = useGetService(UserService);
 
-  const { isLoading, error, data, refetch } = useQuery<User, Error>({
+  const { isLoading, error, data, refetch } = useQuery<User | null, Error>({
     queryKey: ["user"],
-    queryFn: () => {
-      return userService.getUser("");
+    queryFn: async () => {
+      return userService.getUser(1);
     },
   });
 

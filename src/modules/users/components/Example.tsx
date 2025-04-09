@@ -2,10 +2,16 @@
 import { useGetUser } from "../hooks/use-get-user";
 
 export const Example = () => {
-  const { isLoading, error, user } = useGetUser();
+  const { isLoading, error, user, refetch } = useGetUser();
 
-  const onClick = () => {
-    throw new Error("error click");
+  const onUpdate = async () => {
+    await user?.update({ name: "new name" });
+    await refetch();
+  };
+
+  const onDelete = async () => {
+    await user?.delete();
+    await refetch();
   };
 
   if (isLoading) return "Loading...";
@@ -15,7 +21,8 @@ export const Example = () => {
   return (
     <div>
       <h1>{user?.getDisplayName()}</h1>
-      <button onClick={onClick}>click me</button>
+      <button onClick={onUpdate}>update</button>
+      <button onClick={onDelete}>delete</button>
     </div>
   );
 };
