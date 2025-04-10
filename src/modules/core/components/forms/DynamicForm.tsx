@@ -19,6 +19,7 @@ import { getLoadingByUpdatedValues } from "./utils/get-loading-by-updated-values
 import { getDefaultValuesByFields } from "./utils/get-default-values-by-fields";
 import { getLoadingByFields } from "./utils/get-loading-by-fields";
 import { cn } from "../../lib/utils";
+import { isLabel } from "./utils/is-label";
 
 export type DynamicFormProps<T extends ZodObject<any>> = {
   schema: T;
@@ -79,12 +80,10 @@ export const DynamicForm = <T extends ZodObject<any>>({
                     className={cn(
                       "mb-4",
                       field?.className ?? "col-span-12 md:col-span-4",
-                      field?.type === "textarea"
-                        ? "md:col-span-12"
-                        : ""
+                      field?.type === "textarea" ? "md:col-span-12" : ""
                     )}
                   >
-                    <FormLabel>{key}</FormLabel>
+                    {isLabel(field) && <FormLabel>{key}</FormLabel>}
                     <FormControl>
                       {dynamicField({
                         fieldControl,

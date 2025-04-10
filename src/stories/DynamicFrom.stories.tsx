@@ -20,6 +20,9 @@ const schema = z.object({
     to: z.date(),
   }),
   selector: z.string(),
+  password: z.string(),
+  file: z.string().url(),
+  checkbox: z.boolean(),
   textarea: z.string().nullish(),
 });
 
@@ -97,9 +100,20 @@ Default.args = {
       ],
       defaultValue: "option2",
     },
+    password: {
+      type: "inputPassword",
+    },
     textarea: {
       type: "textarea",
       placeholder: "Insert your text...",
+    },
+    file: {
+      type: "inputFile",
+      accept: "image/png, image/jpeg",
+    },
+    checkbox: {
+      type: "checkbox",
+      placeholder: "Check me",
     },
   },
 };

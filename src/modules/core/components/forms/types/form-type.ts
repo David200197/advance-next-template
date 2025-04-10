@@ -27,6 +27,9 @@ export type Field<T> =
   | FieldProperty<T, "textarea">
   | FieldProperty<T, "inputNumber", { min?: number; max?: number }>
   | FieldProperty<T, "inputSelect", { options: ItemSelectors }>
+  | FieldProperty<T, "inputPassword">
+  | FieldProperty<T, "inputFile", { accept?: string }>
+  | FieldProperty<T, "checkbox">
   | FieldProperty<T, "inputDate", { format?: string }>
   | FieldProperty<T, "inputRangeDate", { format?: string }>;
 

@@ -7,6 +7,7 @@ import { DatePickerWithRange } from "../../ui/datepicker-with-range";
 import { Dropdown } from "../../ui/dropdown";
 import { Textarea } from "../../ui/textarea";
 import { JSX } from "react";
+import { Checkbox } from "../../ui/checkbox";
 
 type Props<T extends ZodObject<any>> = {
   fieldControl: FieldControl;
@@ -73,6 +74,38 @@ export const dynamicField = <T extends ZodObject<any>>({
         format={field?.type === "inputRangeDate" ? field.format : undefined}
         disabled={disabled || field?.disabled}
       />
+    ),
+    inputPassword: () => (
+      <Input
+        {...fieldControl}
+        placeholder={field?.placeholder}
+        disabled={disabled || field?.disabled}
+        type="password"
+      />
+    ),
+    inputFile: () => (
+      <Input
+        {...fieldControl}
+        placeholder={field?.placeholder}
+        disabled={disabled || field?.disabled}
+        type="file"
+        accept={field?.type === "inputFile" ? field.accept : undefined}
+      />
+    ),
+    checkbox: () => (
+      <div className="flex items-center space-x-2">
+        <Checkbox
+          id="terms"
+          {...fieldControl}
+          disabled={disabled || field?.disabled}
+        />
+        <label
+          htmlFor="terms"
+          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+        >
+          {field?.placeholder}
+        </label>
+      </div>
     ),
   };
 
