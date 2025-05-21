@@ -8,12 +8,22 @@ import { Dropdown } from "../../ui/dropdown";
 import { Textarea } from "../../ui/textarea";
 import { JSX } from "react";
 import { Checkbox } from "../../ui/checkbox";
+import { UseFormReturn } from "react-hook-form";
 
 type Props<T extends ZodObject<any>> = {
   fieldControl: FieldControl;
   field?: Field<T>;
   loading?: boolean;
   disabled?: boolean;
+  form: UseFormReturn<
+    {
+      [x: string]: any;
+    },
+    any,
+    {
+      [x: string]: any;
+    }
+  >;
 };
 
 export const dynamicField = <T extends ZodObject<any>>({
@@ -21,6 +31,7 @@ export const dynamicField = <T extends ZodObject<any>>({
   field,
   loading,
   disabled,
+  form
 }: Props<T>) => {
   if (loading || field?.loading) {
     return <Skeleton className="w-full h-[37px] rounded-md" />;
@@ -54,6 +65,14 @@ export const dynamicField = <T extends ZodObject<any>>({
       />
     ),
     inputSelect: () => (
+      <Dropdown
+        {...fieldControl}
+        options={field?.type === "inputSelect" ? field.options || [] : []}
+        placeholder={field?.placeholder}
+        disabled={disabled || field?.disabled}
+      />
+    ),
+    inputCombobox: () => (
       <Dropdown
         {...fieldControl}
         options={field?.type === "inputSelect" ? field.options || [] : []}
@@ -96,7 +115,8 @@ export const dynamicField = <T extends ZodObject<any>>({
       <div className="flex items-center space-x-2">
         <Checkbox
           id="terms"
-          {...fieldControl}
+          checked={form.watch(fieldControl.name)} // o "terms"
+          onCheckedChange={(checked) => form.setValue(fieldControl.name, checked)}
           disabled={disabled || field?.disabled}
         />
         <label

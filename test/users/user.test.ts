@@ -27,7 +27,7 @@ describe("User Model", () => {
   it("should validate email format", () => {
     const fn = () =>
       new UserBuilder()
-        .withId("1234567890")
+        .withId(1234567890)
         .withEmail("John Doe")
         .withName("invalid-name")
         .build();

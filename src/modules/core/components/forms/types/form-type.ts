@@ -29,6 +29,7 @@ export type Field<T> =
   | FieldProperty<T, "inputSelect", { options: ItemSelectors }>
   | FieldProperty<T, "inputPassword">
   | FieldProperty<T, "inputFile", { accept?: string }>
+  | FieldProperty<T, "inputCombobox", { options: ItemSelectors }>
   | FieldProperty<T, "checkbox">
   | FieldProperty<T, "inputDate", { format?: string }>
   | FieldProperty<T, "inputRangeDate", { format?: string }>;

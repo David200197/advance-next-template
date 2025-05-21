@@ -90,6 +90,7 @@ export const DynamicForm = <T extends ZodObject<any>>({
                         field,
                         loading: updateLoading,
                         disabled: loading,
+                        form,
                       })}
                     </FormControl>
                     <div className="relative">

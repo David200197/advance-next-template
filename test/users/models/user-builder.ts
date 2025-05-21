@@ -1,7 +1,7 @@
 import { User, UserSchema } from "@/modules/users/entities/User";
 
 export class UserBuilder implements UserSchema {
-  id!: string;
+  id!: number;
   name!: string;
   email!: string;
 
@@ -10,13 +10,13 @@ export class UserBuilder implements UserSchema {
   }
 
   reset(): this {
-    this.id = "123";
+    this.id = 123;
     this.name = "Example";
     this.email = "example@example.com";
     return this;
   }
 
-  withId(id: string): this {
+  withId(id: number): this {
     this.id = id;
     return this;
   }
