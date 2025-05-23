@@ -20,6 +20,7 @@ export type FieldProperty<
   defaultValue?: T;
   loading?: boolean;
   disabled?: boolean;
+  label?: string
 } & Object;
 
 export type Field<T> =
@@ -27,6 +28,7 @@ export type Field<T> =
   | FieldProperty<T, "textarea">
   | FieldProperty<T, "inputNumber", { min?: number; max?: number }>
   | FieldProperty<T, "inputSelect", { options: ItemSelectors }>
+  | FieldProperty<T, "inputMultiSelect", { options: ItemSelectors }>
   | FieldProperty<T, "inputPassword">
   | FieldProperty<T, "inputFile", { accept?: string }>
   | FieldProperty<T, "inputCombobox", { options: ItemSelectors }>

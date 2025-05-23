@@ -9,6 +9,7 @@ import { Textarea } from "../../ui/textarea";
 import { JSX } from "react";
 import { Checkbox } from "../../ui/checkbox";
 import { UseFormReturn } from "react-hook-form";
+import MultipleSelector from "../../ui/multi-selector";
 
 type Props<T extends ZodObject<any>> = {
   fieldControl: FieldControl;
@@ -31,7 +32,7 @@ export const dynamicField = <T extends ZodObject<any>>({
   field,
   loading,
   disabled,
-  form
+  form,
 }: Props<T>) => {
   if (loading || field?.loading) {
     return <Skeleton className="w-full h-[37px] rounded-md" />;
@@ -116,7 +117,9 @@ export const dynamicField = <T extends ZodObject<any>>({
         <Checkbox
           id="terms"
           checked={form.watch(fieldControl.name)} // o "terms"
-          onCheckedChange={(checked) => form.setValue(fieldControl.name, checked)}
+          onCheckedChange={(checked) =>
+            form.setValue(fieldControl.name, checked)
+          }
           disabled={disabled || field?.disabled}
         />
         <label
@@ -126,6 +129,21 @@ export const dynamicField = <T extends ZodObject<any>>({
           {field?.placeholder}
         </label>
       </div>
+    ),
+    inputMultiSelect: () => (
+      <MultipleSelector
+        {...fieldControl}
+        defaultOptions={
+          field?.type === "inputMultiSelect" ? field.options : undefined
+        }
+        placeholder={field?.placeholder}
+        disabled={disabled || field?.disabled}
+        emptyIndicator={
+          <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
+            no results found.
+          </p>
+        }
+      />
     ),
   };
 

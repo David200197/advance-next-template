@@ -83,7 +83,9 @@ export const DynamicForm = <T extends ZodObject<any>>({
                       field?.type === "textarea" ? "md:col-span-12" : ""
                     )}
                   >
-                    {isLabel(field) && <FormLabel>{key}</FormLabel>}
+                    {isLabel(field) && (
+                      <FormLabel>{field?.label ?? key}</FormLabel>
+                    )}
                     <FormControl>
                       {dynamicField({
                         fieldControl,

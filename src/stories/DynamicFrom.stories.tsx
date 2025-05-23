@@ -22,6 +22,7 @@ const schema = z.object({
   selector: z.string(),
   password: z.string(),
   file: z.string().url(),
+  multiSelector: z.array(z.any()).min(1),
   checkbox: z.boolean(),
   textarea: z.string().nullish(),
 });
@@ -91,6 +92,7 @@ Default.args = {
       type: "inputRangeDate",
       defaultValue: { from: new Date(), to: new Date() },
       format: "yyyy-MM-dd",
+      label: "date range",
     },
     selector: {
       type: "inputSelect",
@@ -110,6 +112,17 @@ Default.args = {
     file: {
       type: "inputFile",
       accept: "image/png, image/jpeg",
+    },
+    multiSelector: {
+      type: "inputMultiSelect",
+      options: [
+        { value: "option1", label: "Option 1" },
+        { value: "option2", label: "Option 2" },
+      ],
+      defaultValue: [
+        { value: "option1", label: "Option 1" },
+        { value: "option2", label: "Option 2" },
+      ],
     },
     checkbox: {
       type: "checkbox",
