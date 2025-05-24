@@ -119,10 +119,7 @@ Default.args = {
         { value: "option1", label: "Option 1" },
         { value: "option2", label: "Option 2" },
       ],
-      defaultValue: [
-        { value: "option1", label: "Option 1" },
-        { value: "option2", label: "Option 2" },
-      ],
+      defaultValue: ["option1", "option2"],
     },
     checkbox: {
       type: "checkbox",

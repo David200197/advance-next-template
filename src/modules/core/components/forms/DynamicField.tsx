@@ -9,7 +9,7 @@ import { Textarea } from "../../ui/textarea";
 import { JSX } from "react";
 import { Checkbox } from "../../ui/checkbox";
 import { UseFormReturn } from "react-hook-form";
-import MultipleSelector from "../../ui/multi-selector";
+import { MultiSelect } from "../../ui/multi-selector";
 
 type Props<T extends ZodObject<any>> = {
   fieldControl: FieldControl;
@@ -131,18 +131,13 @@ export const dynamicField = <T extends ZodObject<any>>({
       </div>
     ),
     inputMultiSelect: () => (
-      <MultipleSelector
+      <MultiSelect
         {...fieldControl}
-        defaultOptions={
-          field?.type === "inputMultiSelect" ? field.options : undefined
-        }
+        options={field?.type === "inputMultiSelect" ? field.options : []}
         placeholder={field?.placeholder}
         disabled={disabled || field?.disabled}
-        emptyIndicator={
-          <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
-            no results found.
-          </p>
-        }
+        onValueChange={fieldControl.onChange}
+        defaultValue={field?.defaultValue as unknown as string[]}
       />
     ),
   };

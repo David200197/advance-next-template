@@ -20,7 +20,7 @@ export type FieldProperty<
   defaultValue?: T;
   loading?: boolean;
   disabled?: boolean;
-  label?: string
+  label?: string;
 } & Object;
 
 export type Field<T> =
