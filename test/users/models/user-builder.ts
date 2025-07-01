@@ -1,4 +1,5 @@
-import { User, UserSchema } from "@/modules/users/entities/User";
+import { User } from "@/modules/users/entities/User";
+import { UserSchema } from "@/modules/users/entities/UserSchema";
 
 export class UserBuilder implements UserSchema {
   id!: number;
@@ -36,6 +37,6 @@ export class UserBuilder implements UserSchema {
   }
 
   build(): User {
-    return new User(this)
+    return new User(this);
   }
 }

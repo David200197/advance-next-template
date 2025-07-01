@@ -1,6 +1,6 @@
 import { z, infer as ZInfer } from "zod";
-import { validateSchema } from "../utils/validate-model-schema";
 import { Injectable } from "../decorators/Injectable";
+import { ZodValidator } from "../lib/ZodValidator";
 
 const envSchema = z.object({
   NEXT_PUBLIC_API_URL: z.string().url(),
@@ -12,8 +12,8 @@ type EnvSchema = ZInfer<typeof envSchema>;
 export class ConfigService {
   private readonly env: EnvSchema;
 
-  constructor() {
-    this.env = validateSchema("Env", envSchema, {
+  constructor(private readonly zodValidator: ZodValidator) {
+    this.env = this.zodValidator.validate("Env", envSchema, {
       NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL ?? "--",
     });
   }

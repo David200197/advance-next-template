@@ -1,7 +1,8 @@
 type AdvanceFilterKey<T> = keyof T | (keyof T)[] | ((item: T) => string);
 
-export class Collection<T> extends Array<T> {
-  declare ["constructor"]: typeof this;
+export abstract class Collection<T> extends Array<T> {
+  declare ["constructor"]: typeof Collection;
+
   /**
    * Groups the collection by a given key or function.
    * @returns A grouped collection of the same type as `this`
@@ -9,34 +10,33 @@ export class Collection<T> extends Array<T> {
   groupBy<K extends keyof T>(
     keyOrMethod: K | ((item: T) => string)
   ): Record<string, this> {
-    return this.reduce((acc, item) => {
+    return this.reduce((group, currentValue) => {
       const groupKey =
         typeof keyOrMethod === "function"
-          ? keyOrMethod(item)
-          : (item[keyOrMethod] as unknown as string);
-      if (!acc[groupKey]) {
-        acc[groupKey] = this.createInstance();
+          ? keyOrMethod(currentValue)
+          : String(currentValue[keyOrMethod]);
+      if (!group[groupKey]) {
+        group[groupKey] = this.createGroup();
       }
-
-      acc[groupKey].push(item);
-      return acc;
+      group[groupKey].push(currentValue);
+      return group;
     }, {} as Record<string, this>);
   }
 
   /**
    * Normalizes a string by removing accents and converting to lowercase.
    */
-  private normalizeString(str: string): string {
+  protected normalizeString(str: string): string {
     return str
-      .normalize("NFD") // Decomposes accented characters
-      .replace(/\p{Diacritic}/gu, "") // Removes diacritical marks (accents)
-      .toLowerCase(); // Converts to lowercase
+      .normalize("NFD")
+      .replace(/\p{Diacritic}/gu, "")
+      .toLowerCase();
   }
 
   /**
    * Extracts a set of normalized words from a given text.
    */
-  private getNormalizedWords(text: string): Set<string> {
+  protected getNormalizedWords(text: string): Set<string> {
     return new Set(this.normalizeString(text).split(/\s+/));
   }
 
@@ -47,48 +47,51 @@ export class Collection<T> extends Array<T> {
    * - advancedFilter(keys, query): searches in specific fields or custom function.
    * @returns A filtered collection of the same type as `this`
    */
-  advancedFilter(query: string): Collection<T>;
-  advancedFilter(keys: AdvanceFilterKey<T>, query: string): Collection<T>;
+  advancedFilter(query: string): this;
+  advancedFilter(keys: AdvanceFilterKey<T>, query: string): this;
   advancedFilter(
     keysOrQuery: AdvanceFilterKey<T> | string,
     query?: string
   ): this {
     let keys: AdvanceFilterKey<T>;
+    let actualQuery: string;
+
     if (typeof query === "undefined") {
-      query = keysOrQuery as string;
-      keys = (item: T) => Object.values(item as keyof T).join(" "); // Search in all fields
+      actualQuery = keysOrQuery as string;
+      keys = (item: T) =>
+        Object.values(item as Record<string, unknown>).join(" "); // Search in all fields
     } else {
       keys = keysOrQuery as AdvanceFilterKey<T>;
+      actualQuery = query;
     }
 
-    if (!query.trim()) return this.createInstance(...this);
+    if (!actualQuery.trim()) return this.createGroup([...this]);
 
-    const queryWords = this.getNormalizedWords(query);
+    const queryWords = this.getNormalizedWords(actualQuery);
 
-    return this.createInstance(
-      ...this.filter((item) => {
-        let text: string;
+    const filtered = this.filter((item) => {
+      let text: string;
 
-        if (typeof keys === "function") {
-          text = keys(item);
-        } else if (Array.isArray(keys)) {
-          text = keys.map((key) => item[key]).join(" ");
-        } else {
-          text = item[keys] as any;
-        }
+      if (typeof keys === "function") {
+        text = keys(item);
+      } else if (Array.isArray(keys)) {
+        text = keys.map((key) => String(item[key] ?? "")).join(" ");
+      } else {
+        text = String(item[keys] ?? "");
+      }
 
-        if (typeof text !== "string") return false;
+      if (typeof text !== "string") return false;
 
-        const textWords = this.getNormalizedWords(text);
+      const textWords = this.getNormalizedWords(text);
 
-        return [...queryWords].every((qWord) =>
-          [...textWords].some((tWord) => tWord.includes(qWord))
-        );
-      })
-    );
+      return [...queryWords].every((qWord) =>
+        [...textWords].some((tWord) => tWord.includes(qWord))
+      );
+    });
+
+    return this.createGroup(filtered);
   }
 
-  private createInstance(...data: T[]): this {
-    return new (this as any).constructor(...data);
-  }
+  private createGroup = (array: Array<T> = []) =>
+    Object.setPrototypeOf(array, this.constructor.prototype) as this;
 }

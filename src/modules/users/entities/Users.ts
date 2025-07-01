@@ -1,16 +1,8 @@
-import { User, UserSchema } from "./User";
+import { User } from "./User";
 import { Collection } from "@/modules/core/lib/Collection";
-import { Entities } from "@/modules/core/decorators/Entities";
-import { HttpClient } from "@/modules/core/models/HttpClient";
+import { UserSchema } from "./UserSchema";
 
-@Entities()
 export class Users extends Collection<User> {
-  private httpClient!: HttpClient;
-
-  injectDependencies(httpClient: HttpClient) {
-    if (!this.httpClient) this.httpClient = httpClient;
-  }
-
   constructor(...users: User[]) {
     super(...users);
   }

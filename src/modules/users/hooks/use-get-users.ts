@@ -1,7 +1,7 @@
 import { useGetService } from "@/modules/core/contexts/DiContext";
 import { useQuery } from "@tanstack/react-query";
-import { User } from "../entities/User";
 import { UserService } from "../services/user-service";
+import { Users } from "../entities/Users";
 
 export const useGetUser = () => {
   const userService = useGetService(UserService);
@@ -9,14 +9,14 @@ export const useGetUser = () => {
   const {
     isLoading,
     error,
-    data: user,
+    data: users,
     refetch,
-  } = useQuery<User | null, Error>({
-    queryKey: ["user"],
+  } = useQuery<Users | null, Error>({
+    queryKey: ["users"],
     queryFn: async () => {
-      return userService.getUser(1);
+      return userService.getUsers();
     },
   });
 
-  return { user, isLoading, error, refetch };
+  return { users, isLoading, error, refetch };
 };
