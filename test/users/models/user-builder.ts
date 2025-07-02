@@ -1,7 +1,7 @@
+import type { GetUserResponseDTO } from "@/modules/users/dtos/GetUserResponseDTO";
 import { User } from "@/modules/users/entities/User";
-import { UserSchema } from "@/modules/users/entities/UserSchema";
 
-export class UserBuilder implements UserSchema {
+export class UserBuilder implements GetUserResponseDTO {
   id!: number;
   name!: string;
   email!: string;
@@ -32,7 +32,7 @@ export class UserBuilder implements UserSchema {
     return this;
   }
 
-  schema(): UserSchema {
+  getDto(): GetUserResponseDTO {
     return this;
   }
 

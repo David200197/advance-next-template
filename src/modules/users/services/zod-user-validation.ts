@@ -1,6 +1,9 @@
 import { Injectable } from "@/modules/core/decorators/Injectable";
-import { ZodValidator } from "@/modules/core/lib/ZodValidator";
+import { ZodValidator } from "@/modules/core/services/zod-validator";
 import { z } from "zod";
+import { GetUserResponseDTO } from "../dtos/GetUserResponseDTO";
+import { GetUsersResponseDTO } from "../dtos/GetUsersResponseDTO";
+import { UserValidator } from "../models/UserValidator";
 
 const userSchema = z.object({
   id: z.number(),
@@ -10,18 +13,15 @@ const userSchema = z.object({
 
 const usersSchema = z.array(userSchema);
 
-type UserSchema = z.infer<typeof userSchema>;
-type UsersSchema = z.infer<typeof usersSchema>;
-
 @Injectable()
-export class UserValidation {
+export class ZodUserValidation implements UserValidator {
   constructor(private readonly zodValidator: ZodValidator) {}
 
-  validateUser(data: UserSchema) {
+  validateGetUserResponse(data: GetUserResponseDTO) {
     return this.zodValidator.validate("user", userSchema, data);
   }
 
-  validateUsers(data: UsersSchema) {
+  validateGetUsersResponse(data: GetUsersResponseDTO) {
     return this.zodValidator.validate("users", usersSchema, data);
   }
 }

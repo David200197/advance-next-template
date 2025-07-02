@@ -1,11 +1,11 @@
-import { UserSchema } from "./UserSchema";
+import type { GetUserResponseDTO } from "../dtos/GetUserResponseDTO";
 
-export class User implements UserSchema {
+export class User implements GetUserResponseDTO {
   id!: number;
   name!: string;
   email!: string;
 
-  constructor(data: UserSchema) {
+  constructor(data: GetUserResponseDTO) {
     Object.assign(this, data);
   }
 

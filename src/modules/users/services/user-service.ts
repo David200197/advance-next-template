@@ -1,10 +1,12 @@
 import type { HttpClient } from "@/modules/core/models/HttpClient";
 import { InjectHttpClient } from "@/modules/core/decorators/InjectHttpClient";
 import { Injectable } from "@/modules/core/decorators/Injectable";
-import { UserValidation } from "./user-validation";
-import { UserSchema } from "../entities/UserSchema";
 import { User } from "../entities/User";
 import { Users } from "../entities/Users";
+import { InjectUserValidator } from "../decorators/InjectUserValidator";
+import type { UserValidator } from "../models/UserValidator";
+import type { GetUserResponseDTO } from "../dtos/GetUserResponseDTO";
+import type { GetUsersResponseDTO } from "../dtos/GetUsersResponseDTO";
 
 @Injectable()
 export class UserService {
@@ -13,21 +15,22 @@ export class UserService {
   constructor(
     @InjectHttpClient()
     private readonly httpClient: HttpClient,
-    private readonly userValidation: UserValidation
+    @InjectUserValidator()
+    private readonly userValidation: UserValidator
   ) {}
 
   getUser = async (id: number) => {
-    const response = await this.httpClient.get<UserSchema>(
+    const response = await this.httpClient.get<GetUserResponseDTO>(
       `${this.BASE_URL}/${id}`
     );
-    const userValidated = this.userValidation.validateUser(response);
-    return new User(userValidated);
+    return new User(this.userValidation.validateGetUserResponse(response));
   };
 
   getUsers = async () => {
-    const response = await this.httpClient.get<UserSchema[]>(this.BASE_URL);
-    const usersValidate = this.userValidation.validateUsers(response);
-    return Users.create(usersValidate);
+    const response = await this.httpClient.get<GetUsersResponseDTO>(
+      this.BASE_URL
+    );
+    return Users.create(this.userValidation.validateGetUsersResponse(response));
   };
 
   updateUser = async (user: User) => {

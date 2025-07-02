@@ -3,9 +3,9 @@ import { HttpClient } from "../models/HttpClient";
 import { ExceptionHandler } from "../interceptors/exception-handler";
 import { ExceptionHandlerModel } from "../models/ErrorHandler";
 import { ContainerModule } from "inversify";
-import { CORE_DI } from "./types";
+import { CORE_DI } from "./constants";
 import { ConfigService } from "../services/config-service";
-import { ZodValidator } from "../lib/ZodValidator";
+import { ZodValidator } from "../services/zod-validator";
 
 export const CoreModule = new ContainerModule((bind) => {
   bind<ExceptionHandlerModel>(CORE_DI.EXCEPTION_HANDLER).to(ExceptionHandler);

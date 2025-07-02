@@ -3,7 +3,7 @@
 import { Container } from "inversify";
 import { Component, ErrorInfo, ReactNode } from "react";
 import { ExceptionHandlerModel } from "../models/ErrorHandler";
-import { CORE_DI } from "../di/types";
+import { CORE_DI } from "../di/constants";
 
 interface ErrorBoundaryProps {
   children: ReactNode;
