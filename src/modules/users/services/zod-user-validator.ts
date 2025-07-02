@@ -18,10 +18,10 @@ export class ZodUserValidator implements UserValidator {
   constructor(private readonly zodValidator: ZodValidator) {}
 
   validateGetUserResponse(data: GetUserResponseDTO) {
-    return this.zodValidator.validate("user", userSchema, data);
+    return this.zodValidator.validate("GetUserResponseDTO", userSchema, data);
   }
 
   validateGetUsersResponse(data: GetUsersResponseDTO) {
-    return this.zodValidator.validate("users", usersSchema, data);
+    return this.zodValidator.validate("GetUsersResponseDTO", usersSchema, data);
   }
 }
