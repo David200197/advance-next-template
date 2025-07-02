@@ -14,7 +14,7 @@ const userSchema = z.object({
 const usersSchema = z.array(userSchema);
 
 @Injectable()
-export class ZodUserValidation implements UserValidator {
+export class ZodUserValidator implements UserValidator {
   constructor(private readonly zodValidator: ZodValidator) {}
 
   validateGetUserResponse(data: GetUserResponseDTO) {

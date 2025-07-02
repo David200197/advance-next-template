@@ -4,18 +4,19 @@ import { UserService } from "@/modules/users/services/user-service";
 import { it, describe, beforeAll, expect } from "vitest";
 import { UserMother } from "./models/user-mother";
 import { UserSchemaMother } from "./models/user-schema-mother";
-import { ZodUserValidation } from "@/modules/users/services/zod-user-validation";
+import { USER_DI } from "@/modules/users/di/constants";
+import { UserValidator } from "@/modules/users/models/UserValidator";
 
 describe("User Service", () => {
   let userService: UserService;
-  let userFactory: Mocked<ZodUserValidation>;
+  let userFactory: Mocked<UserValidator>;
 
   beforeAll(async () => {
     const { unit, unitRef } = await TestBed.solitary(UserService).compile();
     userService = unit;
     userFactory = unitRef.get(
-      ZodUserValidation
-    ) as unknown as Mocked<ZodUserValidation>;
+      USER_DI.VALIDATOR
+    ) as unknown as Mocked<UserValidator>;
   });
 
   it("should get a user", async () => {
