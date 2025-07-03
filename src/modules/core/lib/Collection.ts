@@ -1,5 +1,10 @@
 type AdvanceFilterKey<T> = keyof T | (keyof T)[] | ((item: T) => string);
 
+/**
+ * Represents a generic collection of items with advanced grouping and filtering capabilities.
+ *
+ * @typeParam T - The type of items contained in the collection.
+ */
 export abstract class Collection<T> extends Array<T> {
   declare ["constructor"]: typeof Collection;
 

@@ -7,6 +7,7 @@ import { InjectUserValidator } from "../decorators/InjectUserValidator";
 import type { UserValidator } from "../models/UserValidator";
 import type { GetUserResponseDTO } from "../dtos/GetUserResponseDTO";
 import type { GetUsersResponseDTO } from "../dtos/GetUsersResponseDTO";
+import { UrlBuilder } from "@/modules/core/lib/UrlBuilder";
 
 @Injectable()
 export class UserService {
@@ -20,8 +21,9 @@ export class UserService {
   ) {}
 
   getUser = async (id: number) => {
+    const urlBuilder = new UrlBuilder(this.BASE_URL, id);
     const response = await this.httpClient.get<GetUserResponseDTO>(
-      `${this.BASE_URL}/${id}`
+      urlBuilder.build()
     );
     return new User(this.userValidation.validateGetUserResponse(response));
   };
