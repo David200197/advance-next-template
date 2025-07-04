@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { ZodObject, infer as zInfer } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Form,
   FormControl,
@@ -62,11 +62,13 @@ export const DynamicForm = <T extends ZodObject<any>>({
     }
   }, [updatedValues, form]);
 
+  const keys = useMemo(() => Object.keys(schema.shape), [schema])
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8 ">
         <div className="grid grid-cols-12 gap-4">
-          {Object.keys(schema.shape).map((key) => (
+          {keys.map((key) => (
             <FormField
               key={key}
               control={form.control}
