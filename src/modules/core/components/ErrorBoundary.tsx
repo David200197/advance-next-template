@@ -2,8 +2,7 @@
 
 import { Container } from "inversify";
 import { Component, ErrorInfo, ReactNode } from "react";
-import { ExceptionHandlerModel } from "../models/ErrorHandler";
-import { CORE_DI } from "../di/constants";
+import { ErrorBoundaryInterceptor } from "../interceptors/error-boundary.interceptor";
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -31,10 +30,10 @@ export class ErrorBoundary extends Component<
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     const container = this.props.container;
-    const exceptionHandler = container.get<ExceptionHandlerModel>(
-      CORE_DI.EXCEPTION_HANDLER
+    const errorBoundaryException = container.get(
+      ErrorBoundaryInterceptor
     );
-    exceptionHandler.handle(error, errorInfo);
+    errorBoundaryException.handle(error, errorInfo);
   }
 
   render(): ReactNode {
