@@ -6,14 +6,14 @@ interface Entity<ID> {
 }
 
 export class Entities<T extends Entity<string>> {
-  protected value: Collection<T>;
+  protected collection: Collection<T>;
 
-  constructor(value: T[]) {
-    this.value = new Collection(...value);
+  constructor(items: T[]) {
+    this.collection = new Collection(...items);
   }
 
   render(component: (data: T) => ReactNode) {
-    return this.value.map((data) => (
+    return this.collection.map((data) => (
       <Fragment key={data.id}>{component(data)}</Fragment>
     ));
   }
