@@ -94,11 +94,4 @@ describe("Collection", () => {
       expect(filtered).toHaveLength(0);
     });
   });
-
-  it("should group entities by a specified instance of class", () => {
-    const users = new Foods(...data);
-    const groupedByName = users.groupBy("name");
-    expect(groupedByName["Apple"]).instanceOf(Foods);
-    expect(groupedByName["Apple"][0]).instanceOf(Food);
-  });
 });

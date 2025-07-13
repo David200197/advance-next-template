@@ -1,12 +1,14 @@
 import type { GetUserResponseDTO } from "../dtos/GetUserResponseDTO";
 
-export class User implements GetUserResponseDTO {
-  id!: number;
-  name!: string;
-  email!: string;
+export class User {
+  readonly id: string;
+  private name: string;
+  private email: string;
 
   constructor(data: GetUserResponseDTO) {
-    Object.assign(this, data);
+    this.id = data.id.toString();
+    this.name = data.name;
+    this.email = data.email;
   }
 
   getDisplayName() {

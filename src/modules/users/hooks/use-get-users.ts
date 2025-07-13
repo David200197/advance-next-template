@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { UserService } from "../services/user-service";
 import { Users } from "../entities/Users";
 
-export const useGetUser = () => {
+export const useGetUsers = () => {
   const userService = useGetService(UserService);
 
   const {

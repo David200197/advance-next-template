@@ -1,27 +1,9 @@
 "use client";
 
-import { useGetService } from "@/modules/core/contexts/DiContext";
-import { useGetUser } from "../hooks/use-get-user";
-import { UserService } from "../services/user-service";
+import { useGetUsers } from "../hooks/use-get-users";
 
 export const Example = () => {
-
-  const userService = useGetService(UserService)
-
-  const { isLoading, error, user, refetch } = useGetUser();
-
-  const onUpdate = async () => {
-    if (!user) return
-    user?.rename("new name");
-    await userService.updateUser(user)
-    await refetch();
-  };
-
-  const onDelete = async () => {
-    if (!user) return
-    await userService.deleteUser(user);
-    await refetch();
-  };
+  const { isLoading, error, users } = useGetUsers();
 
   if (isLoading) return "Loading...";
 
@@ -29,9 +11,9 @@ export const Example = () => {
 
   return (
     <div>
-      <h1>{user?.getDisplayName()}</h1>
-      <button onClick={onUpdate}>update</button>
-      <button onClick={onDelete}>delete</button>
+      {users?.render((user) => (
+        <p>{user.getDisplayName()}</p>
+      ))}
     </div>
   );
 };

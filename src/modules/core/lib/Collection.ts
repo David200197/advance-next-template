@@ -5,8 +5,10 @@ type AdvanceFilterKey<T> = keyof T | (keyof T)[] | ((item: T) => string);
  *
  * @typeParam T - The type of items contained in the collection.
  */
-export abstract class Collection<T> extends Array<T> {
-  declare ["constructor"]: typeof Collection;
+export class Collection<T> extends Array<T> {
+  constructor(...value: T[]) {
+    super(...value);
+  }
 
   /**
    * Groups the collection by a given key or function.
@@ -14,18 +16,18 @@ export abstract class Collection<T> extends Array<T> {
    */
   groupBy<K extends keyof T>(
     keyOrMethod: K | ((item: T) => string)
-  ): Record<string, this> {
+  ): Record<string, Collection<T>> {
     return this.reduce((group, currentValue) => {
       const groupKey =
         typeof keyOrMethod === "function"
           ? keyOrMethod(currentValue)
           : String(currentValue[keyOrMethod]);
       if (!group[groupKey]) {
-        group[groupKey] = this.createGroup();
+        group[groupKey] = new Collection();
       }
       group[groupKey].push(currentValue);
       return group;
-    }, {} as Record<string, this>);
+    }, {} as Record<string, Collection<T>>);
   }
 
   /**
@@ -57,7 +59,7 @@ export abstract class Collection<T> extends Array<T> {
   advancedFilter(
     keysOrQuery: AdvanceFilterKey<T> | string,
     query?: string
-  ): this {
+  ): Collection<T> {
     let keys: AdvanceFilterKey<T>;
     let actualQuery: string;
 
@@ -70,7 +72,7 @@ export abstract class Collection<T> extends Array<T> {
       actualQuery = query;
     }
 
-    if (!actualQuery.trim()) return this.createGroup([...this]);
+    if (!actualQuery.trim()) return new Collection(...this);
 
     const queryWords = this.getNormalizedWords(actualQuery);
 
@@ -94,9 +96,6 @@ export abstract class Collection<T> extends Array<T> {
       );
     });
 
-    return this.createGroup(filtered);
+    return new Collection(...filtered);
   }
-
-  private createGroup = (array: Array<T> = []) =>
-    Object.setPrototypeOf(array, this.constructor.prototype) as this;
 }
